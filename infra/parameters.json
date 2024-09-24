@@ -3,25 +3,25 @@
     "contentVersion": "1.0.0.0",
     "parameters": {
       "dnsZoneResourceGroup": {
-        "value": "openai-test-rg"
+        "value": "Hybrid-AI-Sandbox-RG"
       },
       "vnetResourceGroup": {
-        "value": "openai-test-rg"
+        "value": "Hybrid-AI-Sandbox-RG"
       },
       "vnetName": {
-        "value": "open-ai-vnet"
+        "value": "Hybrid-AI-Sandbox-EastUS2"
       },
       "privateEndpointSubsnet": {
-        "value": "sn-plendpoints"
+        "value": "subnet-1"
       },
       "vnetIntegrationSubnet": {
-        "value": "sn-vnetIntegration"
+        "value": "subnet-2"
       },
       "location": {
         "value": "eastus2"
       },
       "environmentName": {
-        "value": "<NAME>"
+        "value": "fonsi1"
       }
     }
   }

@@ -1,7 +1,7 @@
 using './main.bicep'
 
-param environmentName = readEnvironmentVariable('AZURE_ENV_NAME', 'env_name')
-param location = readEnvironmentVariable('AZURE_LOCATION', 'location')
+param environmentName = readEnvironmentVariable('AZURE_ENV_NAME', 'chatdemoj')
+param location = readEnvironmentVariable('AZURE_LOCATION', 'eastus2')
 param principalId = readEnvironmentVariable('AZURE_PRINCIPAL_ID', 'principal_id')
 
 // Please make sure to set this value to false when using rbac with AZURE_AUTH_TYPE
@@ -78,3 +78,13 @@ param azureAISearchName = searchServiceName == '' ? 'search-${resourceToken}' : 
 param azureSearchIndex = readEnvironmentVariable('AZURE_SEARCH_INDEX', 'index-${resourceToken}')
 param azureOpenAIResourceName = readEnvironmentVariable('AZURE_OPENAI_RESOURCE', 'openai-${resourceToken}')
 param storageAccountName = readEnvironmentVariable('AZURE_BLOB_ACCOUNT_NAME', 'str${resourceToken}')
+
+// Networking Integrations.
+// To deploy all the resources with private endoipoints and public network access disable,
+// We need to provide additional parameters: the resource groups for private dns zones,
+// the resource group, the vnet name, and the subnets for the vnet.
+param dnsZoneResourceGroup  = readEnvironmentVariable('AZURE_DNS_ZONE_RESOURCE_GROUP', 'openai-test-rg')
+param vnetResourceGroup = readEnvironmentVariable('AZURE_VNET_RESOURCE_GROUP', 'openai-test-rg')
+param vnetName = readEnvironmentVariable('AZURE_VNET_NAME', 'open-ai-vnet')
+param privateEndpointSubsnet = readEnvironmentVariable('AZURE_PE_SUBNET_NAME', 'sn-plendpoints')
+param vnetIntegrationSubnet = readEnvironmentVariable('AZURE_VNET_INTEGRATION_SUBNET_NAME', 'sn-vnetIntegration')

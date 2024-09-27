@@ -472,24 +472,20 @@ def create_app():
         try:
             speech_key = env_helper.AZURE_SPEECH_KEY or get_speech_key(env_helper)
 
-            response = requests.post(
-                f"{env_helper.AZURE_SPEECH_REGION_ENDPOINT}sts/v1.0/issueToken",
-                headers={
-                    "Ocp-Apim-Subscription-Key": speech_key,
-                },
-                timeout=5,
-            )
+            credential = DefaultAzureCredential()
+            token_response = credential.get_token("https://cognitiveservices.azure.com/.default")
 
-            if response.status_code == 200:
+            if token_response:
+                token = token_response.token
                 return {
-                    "token": response.text,
-                    "key": speech_key,
-                    "region": env_helper.AZURE_SPEECH_SERVICE_REGION,
-                    "languages": env_helper.AZURE_SPEECH_RECOGNIZER_LANGUAGES,
+                        "token": token,
+                        "key": speech_key,
+                        "region": env_helper.AZURE_SPEECH_SERVICE_REGION,
+                        "languages": env_helper.AZURE_SPEECH_RECOGNIZER_LANGUAGES,
                 }
 
-            logger.error("Failed to get speech config: %s", response.text)
-            return {"error": "Failed to get speech config"}, response.status_code
+            logger.error("Failed to get speech config: %s", token_response.text)
+            return {"error": "Failed to get speech config"}, token_response.status_code
         except Exception as e:
             logger.exception("Exception in /api/speech | %s", str(e))
 

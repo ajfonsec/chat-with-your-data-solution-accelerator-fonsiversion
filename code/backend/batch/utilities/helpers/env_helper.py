@@ -220,9 +220,10 @@ class EnvHelper:
         self.AZURE_SPEECH_RECOGNIZER_LANGUAGES = self.get_env_var_array(
             "AZURE_SPEECH_RECOGNIZER_LANGUAGES", "en-US"
         )
+         # f"https://{self.AZURE_SPEECH_SERVICE_REGION}.api.cognitive.microsoft.com/",
         self.AZURE_SPEECH_REGION_ENDPOINT = os.environ.get(
             "AZURE_SPEECH_REGION_ENDPOINT",
-            f"https://{self.AZURE_SPEECH_SERVICE_REGION}.api.cognitive.microsoft.com/",
+            f"https://{self.AZURE_SPEECH_SERVICE_NAME}.cognitiveservices.azure.com/"
         )
 
         self.LOAD_CONFIG_FROM_BLOB_STORAGE = self.get_env_var_bool(

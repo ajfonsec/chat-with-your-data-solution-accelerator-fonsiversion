@@ -5,7 +5,7 @@ import {
     AutoDetectSourceLanguageConfig,
   } from "microsoft-cognitiveservices-speech-sdk";
 
-const fetchSpeechConfig = async (): Promise<{ token: string, region: string, languages: string[]; }> => {
+const fetchSpeechConfig = async (): Promise<{ token: string, key: string, region: string, languages: string[]; }> => {
   try {
     const response = await fetch("/api/speech");
 
@@ -21,12 +21,15 @@ const fetchSpeechConfig = async (): Promise<{ token: string, region: string, lan
 };
 
 export const multiLingualSpeechRecognizer = async () => {
-        const { token, region, languages } = await fetchSpeechConfig();
+        const { token, key, region, languages } = await fetchSpeechConfig();
 
-        const speechConfig = SpeechConfig.fromAuthorizationToken(
-          token,
-          region
-        );
+        // const speechConfig = SpeechConfig.fromAuthorizationToken(
+        //   token,
+        //   region
+        // );
+        const endPoint = 'wss://speech-focdvdqprwayi.cognitiveservices.azure.com/stt/speech/recognition/conversation/cognitiveservices/v1?language=en-US'
+
+        const speechConfig = SpeechConfig.fromEndpoint(new URL(endPoint), key);
 
         const audioConfig = AudioConfig.fromDefaultMicrophoneInput();
 

@@ -4,6 +4,11 @@ targetScope = 'subscription'
 @maxLength(20)
 @description('Name of the the environment which is used to generate a short unique hash used in all resources.')
 param environmentName string
+param costCenter string
+param creationDate string
+param expirationDate string
+param requestor string
+
 
 param resourceToken string = toLower(uniqueString(subscription().id, environmentName, location))
 
@@ -317,7 +322,7 @@ var blobContainerName = 'documents'
 var queueName = 'doc-processing'
 var clientKey = '${uniqueString(guid(subscription().id, deployment().name))}${newGuidString}'
 var eventGridSystemTopicName = 'doc-processing'
-var tags = { 'azd-env-name': environmentName }
+var tags = { 'azd-env-name': environmentName, 'cost-center':costCenter, 'creation-date':creationDate, 'expiration-date':expirationDate, 'requestor-name':requestor }
 var rgName = 'rg-${environmentName}'
 var keyVaultName = 'kv-${resourceToken}'
 

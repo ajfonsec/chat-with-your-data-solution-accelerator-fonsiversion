@@ -8,6 +8,9 @@ param costCenter string
 param creationDate string
 param expirationDate string
 param requestor string
+param dnsZoneRG string
+param dnsZoneSubscriptionId string
+param ttl int = 3600
 
 param resourceToken string = toLower(uniqueString(subscription().id, environmentName, location))
 
@@ -368,6 +371,19 @@ module keyvaultPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' 
     subnetId: peSubsnet.id
     dnsZoneResourceGroup: dnsZoneResourceGroup
     privateDnsZoneName: 'privatelink.vaultcore.azure.net'
+  }
+}
+
+
+module dnsRecordSetModule './core/private-endpoint/dnsRecordSetModule.bicep' = {
+  name: 'dnsRecordSetModule'
+  scope: resourceGroup(dnsZoneSubscriptionId, dnsZoneRG)
+  params: {
+    dnsZoneName: 'privatelink.vaultcore.azure.net'
+    recordSetName: keyVaultName
+    ttl: ttl
+    ipAddresses: [keyvaultPrivateEndpoint.outputs.privateEndpointIp]
+    location: 'global'
   }
 }
 

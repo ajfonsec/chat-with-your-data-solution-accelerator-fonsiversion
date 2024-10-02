@@ -49,4 +49,11 @@ resource pvtEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
   }
 }
 
-output nic_id string = privateEndpoint.properties.networkInterfaces[0].name
+
+//Nic of the private endpoint 
+resource peNIC 'Microsoft.Network/networkInterfaces@2020-06-01' existing = {
+  name: privateEndpoint.properties.networkInterfaces[0].name
+}
+
+output ipaddress string = reference(peNIC.id, '2020-06-01', 'full').properties.ipConfigurations[0].properties.privateIPAddress
+

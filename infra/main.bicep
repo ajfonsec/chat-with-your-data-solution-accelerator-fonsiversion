@@ -376,7 +376,7 @@ module keyvaultPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' 
 
 // Try to access the existing private endpoint from here 
 
-resource existingkeyvault 'Microsoft.Network/privateEndpoints@2024-01-01' existing = {
+resource existingkeyvault 'Microsoft.Network/privateEndpoints@2020-06-01' existing = {
   name: keyVaultName
   scope: rg
 }
@@ -468,6 +468,24 @@ module openaiPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = 
     privateDnsZoneName: 'privatelink.openai.azure.com'
   }
 }
+
+resource existingopenai 'Microsoft.Network/privateEndpoints@2020-06-01' existing = {
+  name: azureOpenAIResourceName
+  scope: rg
+}
+
+module dnsRecordSetModuleopenai './core/private-endpoint/dnsRecordSetModule.bicep' = {
+  name: 'dnsRecordSetModule'
+  scope: resourceGroup(dnsZoneSubscriptionId, dnsZoneRG)
+  params: {
+    dnsZoneName: 'privatelink.vaultcore.azure.net'
+    recordSetName: keyVaultName
+    ttl: ttl
+    ipAddresses: [existingopenai.properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]
+    location: 'global'
+  }
+}
+
 
 module computerVision 'core/ai/cognitiveservices.bicep' = if (useAdvancedImageProcessing) {
   name: 'computerVision'

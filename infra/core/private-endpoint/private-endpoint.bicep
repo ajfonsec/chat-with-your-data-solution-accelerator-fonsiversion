@@ -49,4 +49,4 @@ resource pvtEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
   }
 }
 
-output ipaddress string = privateEndpoint.properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress
+output nic_id string = privateEndpoint.properties.networkInterfaces[0].name

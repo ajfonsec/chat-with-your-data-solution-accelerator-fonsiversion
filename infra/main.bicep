@@ -375,6 +375,13 @@ module keyvaultPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' 
 }
 
 
+//Nic of the private endpoint 
+resource peNIC 'Microsoft.Network/networkInterfaces@2020-06-01' existing = {
+  scope: rg
+  name: keyvaultPrivateEndpoint.outputs.nic_id
+}
+
+
 module dnsRecordSetModule './core/private-endpoint/dnsRecordSetModule.bicep' = {
   name: 'dnsRecordSetModule'
   scope: resourceGroup(dnsZoneSubscriptionId, dnsZoneRG)
@@ -382,7 +389,7 @@ module dnsRecordSetModule './core/private-endpoint/dnsRecordSetModule.bicep' = {
     dnsZoneName: 'privatelink.vaultcore.azure.net'
     recordSetName: keyVaultName
     ttl: ttl
-    ipAddresses: [keyvaultPrivateEndpoint.outputs.ipaddress]
+    ipAddresses: [reference(peNIC.id, '2020-06-01', 'full').properties.ipConfigurations[0].properties.privateIPAddress]
     location: 'global'
   }
 }

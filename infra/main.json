@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "8611685273613190468"
+      "templateHash": "2088911887853705803"
     }
   },
   "parameters": {
@@ -811,7 +811,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "keyvault-private-endpoint",
-      "resourceGroup": "[parameters('vnetResourceGroup')]",
+      "resourceGroup": "[variables('rgName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -847,7 +847,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "1520502598783903065"
+              "templateHash": "3532347249448832101"
             }
           },
           "parameters": {
@@ -914,11 +914,120 @@
                 "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
               ]
             }
-          ]
+          ],
+          "outputs": {
+            "privateEndpointIp": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01', 'full').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+            }
+          }
         }
       },
       "dependsOn": [
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'keyvault')]"
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'keyvault')]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
+      ]
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
+      "name": "dnsRecordSetModule",
+      "subscriptionId": "[parameters('dnsZoneSubscriptionId')]",
+      "resourceGroup": "[parameters('dnsZoneRG')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "dnsZoneName": {
+            "value": "privatelink.vaultcore.azure.net"
+          },
+          "recordSetName": {
+            "value": "[variables('keyVaultName')]"
+          },
+          "ttl": {
+            "value": "[parameters('ttl')]"
+          },
+          "ipAddresses": {
+            "value": [
+              "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'keyvault-private-endpoint'), '2022-09-01').outputs.privateEndpointIp.value]"
+            ]
+          },
+          "location": {
+            "value": "global"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.30.3.12046",
+              "templateHash": "12555110477058388663"
+            }
+          },
+          "parameters": {
+            "dnsZoneName": {
+              "type": "string"
+            },
+            "recordSetName": {
+              "type": "string"
+            },
+            "ttl": {
+              "type": "int",
+              "defaultValue": 3600
+            },
+            "ipAddresses": {
+              "type": "array"
+            },
+            "location": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Network/privateDnsZones/A",
+              "apiVersion": "2020-06-01",
+              "name": "[format('{0}/{1}', parameters('dnsZoneName'), parameters('recordSetName'))]",
+              "properties": {
+                "copy": [
+                  {
+                    "name": "aRecords",
+                    "count": "[length(parameters('ipAddresses'))]",
+                    "input": {
+                      "ipv4Address": "[parameters('ipAddresses')[copyIndex('aRecords')]]"
+                    }
+                  }
+                ],
+                "ttl": "[parameters('ttl')]"
+              }
+            }
+          ],
+          "outputs": {
+            "ipAddressesDebug": {
+              "type": "array",
+              "value": "[parameters('ipAddresses')]"
+            },
+            "aRecordsDebug": {
+              "type": "array",
+              "copy": {
+                "count": "[length(parameters('ipAddresses'))]",
+                "input": {
+                  "ipv4Address": "[parameters('ipAddresses')[copyIndex()]]"
+                }
+              }
+            },
+            "recordSetId": {
+              "type": "string",
+              "value": "[resourceId('Microsoft.Network/privateDnsZones/A', parameters('dnsZoneName'), parameters('recordSetName'))]"
+            }
+          }
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'keyvault-private-endpoint')]"
       ]
     },
     {
@@ -1088,7 +1197,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "openai-private-endpoint",
-      "resourceGroup": "[parameters('vnetResourceGroup')]",
+      "resourceGroup": "[variables('rgName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -1124,7 +1233,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "1520502598783903065"
+              "templateHash": "3532347249448832101"
             }
           },
           "parameters": {
@@ -1191,11 +1300,18 @@
                 "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
               ]
             }
-          ]
+          ],
+          "outputs": {
+            "privateEndpointIp": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01', 'full').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+            }
+          }
         }
       },
       "dependsOn": [
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureOpenAIResourceName'))]"
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureOpenAIResourceName'))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
       ]
     },
     {
@@ -1802,7 +1918,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "speechService-private-endpoint",
-      "resourceGroup": "[parameters('vnetResourceGroup')]",
+      "resourceGroup": "[variables('rgName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -1838,7 +1954,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "1520502598783903065"
+              "templateHash": "3532347249448832101"
             }
           },
           "parameters": {
@@ -1905,10 +2021,17 @@
                 "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
               ]
             }
-          ]
+          ],
+          "outputs": {
+            "privateEndpointIp": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01', 'full').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+            }
+          }
         }
       },
       "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('speechServiceName'))]"
       ]
     },
@@ -2304,7 +2427,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "searchService-private-endpoint",
-      "resourceGroup": "[parameters('vnetResourceGroup')]",
+      "resourceGroup": "[variables('rgName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -2340,7 +2463,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "1520502598783903065"
+              "templateHash": "3532347249448832101"
             }
           },
           "parameters": {
@@ -2407,10 +2530,17 @@
                 "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
               ]
             }
-          ]
+          ],
+          "outputs": {
+            "privateEndpointIp": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01', 'full').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+            }
+          }
         }
       },
       "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureAISearchName'))]"
       ]
     },
@@ -4484,7 +4614,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "web-private-endpoint",
-      "resourceGroup": "[parameters('vnetResourceGroup')]",
+      "resourceGroup": "[variables('rgName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -4516,7 +4646,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "1520502598783903065"
+              "templateHash": "3532347249448832101"
             }
           },
           "parameters": {
@@ -4583,10 +4713,17 @@
                 "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
               ]
             }
-          ]
+          ],
+          "outputs": {
+            "privateEndpointIp": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01', 'full').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+            }
+          }
         }
       },
       "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('websiteName'))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', format('{0}-docker', parameters('websiteName')))]"
       ]
@@ -6542,7 +6679,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "webAdmin-private-endpoint",
-      "resourceGroup": "[parameters('vnetResourceGroup')]",
+      "resourceGroup": "[variables('rgName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -6574,7 +6711,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "1520502598783903065"
+              "templateHash": "3532347249448832101"
             }
           },
           "parameters": {
@@ -6641,12 +6778,19 @@
                 "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
               ]
             }
-          ]
+          ],
+          "outputs": {
+            "privateEndpointIp": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01', 'full').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+            }
+          }
         }
       },
       "dependsOn": [
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('adminWebsiteName'))]",
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', format('{0}-docker', parameters('adminWebsiteName')))]"
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', format('{0}-docker', parameters('adminWebsiteName')))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
       ]
     },
     {
@@ -10957,7 +11101,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "function-private-endpoint",
-      "resourceGroup": "[parameters('vnetResourceGroup')]",
+      "resourceGroup": "[variables('rgName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -10989,7 +11133,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "1520502598783903065"
+              "templateHash": "3532347249448832101"
             }
           },
           "parameters": {
@@ -11056,12 +11200,19 @@
                 "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
               ]
             }
-          ]
+          ],
+          "outputs": {
+            "privateEndpointIp": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01', 'full').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+            }
+          }
         }
       },
       "dependsOn": [
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('functionName'))]",
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', format('{0}-docker', parameters('functionName')))]"
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', format('{0}-docker', parameters('functionName')))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
       ]
     },
     {
@@ -11223,7 +11374,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "formRecognizer-private-endpoint",
-      "resourceGroup": "[parameters('vnetResourceGroup')]",
+      "resourceGroup": "[variables('rgName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -11259,7 +11410,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "1520502598783903065"
+              "templateHash": "3532347249448832101"
             }
           },
           "parameters": {
@@ -11326,11 +11477,18 @@
                 "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
               ]
             }
-          ]
+          ],
+          "outputs": {
+            "privateEndpointIp": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01', 'full').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+            }
+          }
         }
       },
       "dependsOn": [
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('formRecognizerName'))]"
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('formRecognizerName'))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
       ]
     },
     {
@@ -11492,7 +11650,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "contentSafety-private-endpoint",
-      "resourceGroup": "[parameters('vnetResourceGroup')]",
+      "resourceGroup": "[variables('rgName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -11528,7 +11686,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "1520502598783903065"
+              "templateHash": "3532347249448832101"
             }
           },
           "parameters": {
@@ -11595,11 +11753,18 @@
                 "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
               ]
             }
-          ]
+          ],
+          "outputs": {
+            "privateEndpointIp": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01', 'full').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+            }
+          }
         }
       },
       "dependsOn": [
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('contentSafetyName'))]"
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('contentSafetyName'))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
       ]
     },
     {
@@ -11966,7 +12131,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "storage-blob-private-endpoint",
-      "resourceGroup": "[parameters('vnetResourceGroup')]",
+      "resourceGroup": "[variables('rgName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -12002,7 +12167,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "1520502598783903065"
+              "templateHash": "3532347249448832101"
             }
           },
           "parameters": {
@@ -12069,10 +12234,17 @@
                 "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
               ]
             }
-          ]
+          ],
+          "outputs": {
+            "privateEndpointIp": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01', 'full').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+            }
+          }
         }
       },
       "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('storageAccountName'))]"
       ]
     },
@@ -12080,7 +12252,7 @@
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
       "name": "storage-queue-private-endpoint",
-      "resourceGroup": "[parameters('vnetResourceGroup')]",
+      "resourceGroup": "[variables('rgName')]",
       "properties": {
         "expressionEvaluationOptions": {
           "scope": "inner"
@@ -12116,7 +12288,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "1520502598783903065"
+              "templateHash": "3532347249448832101"
             }
           },
           "parameters": {
@@ -12183,10 +12355,17 @@
                 "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
               ]
             }
-          ]
+          ],
+          "outputs": {
+            "privateEndpointIp": {
+              "type": "string",
+              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01', 'full').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+            }
+          }
         }
       },
       "dependsOn": [
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]",
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('storageAccountName'))]"
       ]
     },

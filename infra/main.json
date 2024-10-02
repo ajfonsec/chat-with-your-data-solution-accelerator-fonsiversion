@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "4787747971516225707"
+      "templateHash": "995542790190872455"
     }
   },
   "parameters": {
@@ -847,7 +847,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "4008608762858074916"
+              "templateHash": "9338483983988176482"
             }
           },
           "parameters": {
@@ -916,13 +916,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointNetworkInterfaceId": {
+            "privateEndpointId": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id]"
-            },
-            "privateEndpointIp": {
-              "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', last(split(reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id, '/'))), '2021-02-01', 'full').properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
             }
           }
         }
@@ -955,7 +951,7 @@
           },
           "ipAddresses": {
             "value": [
-              "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'keyvault-private-endpoint'), '2022-09-01').outputs.privateEndpointIp.value]"
+              "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Network/privateEndpoints', variables('keyVaultName')), '2024-01-01').networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
             ]
           },
           "location": {
@@ -1031,7 +1027,7 @@
         }
       },
       "dependsOn": [
-        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'keyvault-private-endpoint')]"
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
       ]
     },
     {
@@ -1237,7 +1233,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "4008608762858074916"
+              "templateHash": "9338483983988176482"
             }
           },
           "parameters": {
@@ -1306,13 +1302,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointNetworkInterfaceId": {
+            "privateEndpointId": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id]"
-            },
-            "privateEndpointIp": {
-              "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', last(split(reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id, '/'))), '2021-02-01', 'full').properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
             }
           }
         }
@@ -1962,7 +1954,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "4008608762858074916"
+              "templateHash": "9338483983988176482"
             }
           },
           "parameters": {
@@ -2031,13 +2023,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointNetworkInterfaceId": {
+            "privateEndpointId": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id]"
-            },
-            "privateEndpointIp": {
-              "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', last(split(reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id, '/'))), '2021-02-01', 'full').properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
             }
           }
         }
@@ -2475,7 +2463,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "4008608762858074916"
+              "templateHash": "9338483983988176482"
             }
           },
           "parameters": {
@@ -2544,13 +2532,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointNetworkInterfaceId": {
+            "privateEndpointId": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id]"
-            },
-            "privateEndpointIp": {
-              "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', last(split(reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id, '/'))), '2021-02-01', 'full').properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
             }
           }
         }
@@ -4662,7 +4646,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "4008608762858074916"
+              "templateHash": "9338483983988176482"
             }
           },
           "parameters": {
@@ -4731,13 +4715,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointNetworkInterfaceId": {
+            "privateEndpointId": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id]"
-            },
-            "privateEndpointIp": {
-              "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', last(split(reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id, '/'))), '2021-02-01', 'full').properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
             }
           }
         }
@@ -6731,7 +6711,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "4008608762858074916"
+              "templateHash": "9338483983988176482"
             }
           },
           "parameters": {
@@ -6800,13 +6780,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointNetworkInterfaceId": {
+            "privateEndpointId": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id]"
-            },
-            "privateEndpointIp": {
-              "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', last(split(reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id, '/'))), '2021-02-01', 'full').properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
             }
           }
         }
@@ -11157,7 +11133,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "4008608762858074916"
+              "templateHash": "9338483983988176482"
             }
           },
           "parameters": {
@@ -11226,13 +11202,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointNetworkInterfaceId": {
+            "privateEndpointId": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id]"
-            },
-            "privateEndpointIp": {
-              "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', last(split(reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id, '/'))), '2021-02-01', 'full').properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
             }
           }
         }
@@ -11438,7 +11410,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "4008608762858074916"
+              "templateHash": "9338483983988176482"
             }
           },
           "parameters": {
@@ -11507,13 +11479,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointNetworkInterfaceId": {
+            "privateEndpointId": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id]"
-            },
-            "privateEndpointIp": {
-              "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', last(split(reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id, '/'))), '2021-02-01', 'full').properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
             }
           }
         }
@@ -11718,7 +11686,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "4008608762858074916"
+              "templateHash": "9338483983988176482"
             }
           },
           "parameters": {
@@ -11787,13 +11755,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointNetworkInterfaceId": {
+            "privateEndpointId": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id]"
-            },
-            "privateEndpointIp": {
-              "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', last(split(reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id, '/'))), '2021-02-01', 'full').properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
             }
           }
         }
@@ -12203,7 +12167,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "4008608762858074916"
+              "templateHash": "9338483983988176482"
             }
           },
           "parameters": {
@@ -12272,13 +12236,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointNetworkInterfaceId": {
+            "privateEndpointId": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id]"
-            },
-            "privateEndpointIp": {
-              "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', last(split(reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id, '/'))), '2021-02-01', 'full').properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
             }
           }
         }
@@ -12328,7 +12288,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "4008608762858074916"
+              "templateHash": "9338483983988176482"
             }
           },
           "parameters": {
@@ -12397,13 +12357,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointNetworkInterfaceId": {
+            "privateEndpointId": {
               "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id]"
-            },
-            "privateEndpointIp": {
-              "type": "string",
-              "value": "[reference(resourceId('Microsoft.Network/networkInterfaces', last(split(reference(resourceId('Microsoft.Network/privateEndpoints', parameters('name')), '2021-05-01').networkInterfaces[0].id, '/'))), '2021-02-01', 'full').properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
             }
           }
         }

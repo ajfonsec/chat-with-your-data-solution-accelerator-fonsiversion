@@ -50,11 +50,4 @@ resource pvtEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
 }
 
 
-output privateEndpointNetworkInterfaceId string = privateEndpoint.properties.networkInterfaces[0].id
-
-resource networkInterface 'Microsoft.Network/networkInterfaces@2021-02-01' existing = {
-  name: last(split(privateEndpoint.properties.networkInterfaces[0].id, '/'))
-  scope: resourceGroup() // Adjust if the NIC is in a different resource group
-}
-
-output privateEndpointIp string = reference(networkInterface.id, '2021-02-01', 'full').properties.ipConfigurations[0].properties.privateIPAddress
+output privateEndpointId string = privateEndpoint.id

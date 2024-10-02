@@ -374,8 +374,12 @@ module keyvaultPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' 
   }
 }
 
+// Try to access the existing private endpoint from here 
 
-
+resource existingkeyvault 'Microsoft.Network/privateEndpoints@2024-01-01' existing = {
+  name: keyVaultName
+  scope: rg
+}
 
 module dnsRecordSetModule './core/private-endpoint/dnsRecordSetModule.bicep' = {
   name: 'dnsRecordSetModule'
@@ -384,7 +388,7 @@ module dnsRecordSetModule './core/private-endpoint/dnsRecordSetModule.bicep' = {
     dnsZoneName: 'privatelink.vaultcore.azure.net'
     recordSetName: keyVaultName
     ttl: ttl
-    ipAddresses: [keyvaultPrivateEndpoint.outputs.privateEndpointIp]
+    ipAddresses: [existingkeyvault.properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]
     location: 'global'
   }
 }

@@ -49,4 +49,4 @@ resource pvtEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
   }
 }
 
-output ipaddress string = privateEndpoint.properties.ipConfigurations[0].properties.privateIPAddress
+output ipaddress string = privateEndpoint.properties.subnet.properties.ipConfigurations[0].properties.privateIPAddress

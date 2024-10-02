@@ -384,7 +384,7 @@ module dnsRecordSetModule './core/private-endpoint/dnsRecordSetModule.bicep' = {
     dnsZoneName: 'privatelink.vaultcore.azure.net'
     recordSetName: keyVaultName
     ttl: ttl
-    ipAddresses: [keyvaultPrivateEndpoint.outputs.ipaddress]
+    ipAddresses: [keyvaultPrivateEndpoint.outputs.privateEndpointIp]
     location: 'global'
   }
 }

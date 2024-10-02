@@ -48,8 +48,5 @@ resource pvtEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
     ]
   }
 }
-resource networkInterface 'Microsoft.Network/networkInterfaces@2021-05-01' existing = {
-  name: privateEndpoint.properties.networkInterfaces[0].id
-}
 
-output privateEndpointIp string = reference(networkInterface.id).ipConfigurations[0].properties.privateIPAddress
+//output privateEndpointIp string = reference(privateEndpoint.id, '2021-05-01', 'full').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress

@@ -375,17 +375,17 @@ module keyvaultPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' 
 }
 
 
-module dnsRecordSetModule './core/private-endpoint/dnsRecordSetModule.bicep' = {
-  name: 'dnsRecordSetModule'
-  scope: resourceGroup(dnsZoneSubscriptionId, dnsZoneRG)
-  params: {
-    dnsZoneName: 'privatelink.vaultcore.azure.net'
-    recordSetName: keyVaultName
-    ttl: ttl
-    ipAddresses: [keyvaultPrivateEndpoint.outputs.privateEndpointIp]
-    location: 'global'
-  }
-}
+// module dnsRecordSetModule './core/private-endpoint/dnsRecordSetModule.bicep' = {
+//   name: 'dnsRecordSetModule'
+//   scope: resourceGroup(dnsZoneSubscriptionId, dnsZoneRG)
+//   params: {
+//     dnsZoneName: 'privatelink.vaultcore.azure.net'
+//     recordSetName: keyVaultName
+//     ttl: ttl
+//     ipAddresses: [keyvaultPrivateEndpoint.outputs.privateEndpointIp]
+//     location: 'global'
+//   }
+// }
 
 var defaultOpenAiDeployments = [
   {

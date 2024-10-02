@@ -52,4 +52,4 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2021-05-01' exist
   name: privateEndpoint.properties.networkInterfaces[0].id
 }
 
-output privateEndpointIp string = networkInterface.properties.ipConfigurations[0].properties.privateIPAddress
+output privateEndpointIp string = reference(networkInterface.id).ipConfigurations[0].properties.privateIPAddress

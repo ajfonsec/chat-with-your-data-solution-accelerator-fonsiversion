@@ -49,4 +49,4 @@ resource pvtEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
   }
 }
 
-output privateEndpointIp string = reference(privateEndpoint.id, '2021-05-01').properties.networkInterfaces[0].ipConfigurations[0].privateIPAddress
+output privateEndpointIp string = reference(privateEndpoint.id, '2021-05-01').networkInterfaces[0].ipConfigurations[0].privateIPAddress

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "2919423090625600267"
+      "templateHash": "12363162956670103256"
     }
   },
   "parameters": {
@@ -1317,7 +1317,7 @@
     {
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
-      "name": "dnsRecordSetModule",
+      "name": "dnsRecordSetModuleopenai",
       "subscriptionId": "[parameters('dnsZoneSubscriptionId')]",
       "resourceGroup": "[parameters('dnsZoneRG')]",
       "properties": {

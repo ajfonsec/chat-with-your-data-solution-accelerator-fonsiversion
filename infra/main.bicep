@@ -475,7 +475,7 @@ resource existingopenai 'Microsoft.Network/privateEndpoints@2020-06-01' existing
 }
 
 module dnsRecordSetModuleopenai './core/private-endpoint/dnsRecordSetModule.bicep' = {
-  name: 'dnsRecordSetModule'
+  name: 'dnsRecordSetModuleopenai'
   scope: resourceGroup(dnsZoneSubscriptionId, dnsZoneRG)
   params: {
     dnsZoneName: 'privatelink.vaultcore.azure.net'

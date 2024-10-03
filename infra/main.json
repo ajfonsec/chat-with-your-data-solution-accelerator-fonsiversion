@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "5414456285161353541"
+      "templateHash": "7380481689016307290"
     }
   },
   "parameters": {
@@ -838,6 +838,9 @@
           },
           "privateDnsZoneName": {
             "value": "privatelink.vaultcore.azure.net"
+          },
+          "privateEndpointRG": {
+            "value": "[variables('rgName')]"
           }
         },
         "template": {
@@ -847,7 +850,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "15937409363578746738"
+              "templateHash": "14041875979616341815"
             }
           },
           "parameters": {
@@ -870,6 +873,9 @@
               "type": "string"
             },
             "dnsZoneResourceGroup": {
+              "type": "string"
+            },
+            "privateEndpointRG": {
               "type": "string"
             }
           },
@@ -918,7 +924,7 @@
           "outputs": {
             "ipaddress": {
               "type": "string",
-              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('dnsZoneResourceGroup')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('privateEndpointRG')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
             }
           }
         }
@@ -1224,6 +1230,9 @@
           },
           "privateDnsZoneName": {
             "value": "privatelink.openai.azure.com"
+          },
+          "privateEndpointRG": {
+            "value": "[variables('rgName')]"
           }
         },
         "template": {
@@ -1233,7 +1242,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "15937409363578746738"
+              "templateHash": "14041875979616341815"
             }
           },
           "parameters": {
@@ -1256,6 +1265,9 @@
               "type": "string"
             },
             "dnsZoneResourceGroup": {
+              "type": "string"
+            },
+            "privateEndpointRG": {
               "type": "string"
             }
           },
@@ -1304,7 +1316,7 @@
           "outputs": {
             "ipaddress": {
               "type": "string",
-              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('dnsZoneResourceGroup')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('privateEndpointRG')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
             }
           }
         }
@@ -2047,6 +2059,9 @@
           },
           "privateDnsZoneName": {
             "value": "privatelink.cognitiveservices.azure.com"
+          },
+          "privateEndpointRG": {
+            "value": "[variables('rgName')]"
           }
         },
         "template": {
@@ -2056,7 +2071,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "15937409363578746738"
+              "templateHash": "14041875979616341815"
             }
           },
           "parameters": {
@@ -2079,6 +2094,9 @@
               "type": "string"
             },
             "dnsZoneResourceGroup": {
+              "type": "string"
+            },
+            "privateEndpointRG": {
               "type": "string"
             }
           },
@@ -2127,7 +2145,7 @@
           "outputs": {
             "ipaddress": {
               "type": "string",
-              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('dnsZoneResourceGroup')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('privateEndpointRG')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
             }
           }
         }
@@ -2556,6 +2574,9 @@
           },
           "privateDnsZoneName": {
             "value": "privatelink.search.windows.net"
+          },
+          "privateEndpointRG": {
+            "value": "[variables('rgName')]"
           }
         },
         "template": {
@@ -2565,7 +2586,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "15937409363578746738"
+              "templateHash": "14041875979616341815"
             }
           },
           "parameters": {
@@ -2588,6 +2609,9 @@
               "type": "string"
             },
             "dnsZoneResourceGroup": {
+              "type": "string"
+            },
+            "privateEndpointRG": {
               "type": "string"
             }
           },
@@ -2636,7 +2660,7 @@
           "outputs": {
             "ipaddress": {
               "type": "string",
-              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('dnsZoneResourceGroup')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('privateEndpointRG')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
             }
           }
         }
@@ -4739,6 +4763,9 @@
           },
           "dnsZoneResourceGroup": {
             "value": "[parameters('dnsZoneResourceGroup')]"
+          },
+          "privateEndpointRG": {
+            "value": "[variables('rgName')]"
           }
         },
         "template": {
@@ -4748,7 +4775,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "15937409363578746738"
+              "templateHash": "14041875979616341815"
             }
           },
           "parameters": {
@@ -4771,6 +4798,9 @@
               "type": "string"
             },
             "dnsZoneResourceGroup": {
+              "type": "string"
+            },
+            "privateEndpointRG": {
               "type": "string"
             }
           },
@@ -4819,7 +4849,7 @@
           "outputs": {
             "ipaddress": {
               "type": "string",
-              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('dnsZoneResourceGroup')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('privateEndpointRG')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
             }
           }
         }
@@ -6804,6 +6834,9 @@
           },
           "dnsZoneResourceGroup": {
             "value": "[parameters('dnsZoneResourceGroup')]"
+          },
+          "privateEndpointRG": {
+            "value": "[variables('rgName')]"
           }
         },
         "template": {
@@ -6813,7 +6846,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "15937409363578746738"
+              "templateHash": "14041875979616341815"
             }
           },
           "parameters": {
@@ -6836,6 +6869,9 @@
               "type": "string"
             },
             "dnsZoneResourceGroup": {
+              "type": "string"
+            },
+            "privateEndpointRG": {
               "type": "string"
             }
           },
@@ -6884,7 +6920,7 @@
           "outputs": {
             "ipaddress": {
               "type": "string",
-              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('dnsZoneResourceGroup')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('privateEndpointRG')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
             }
           }
         }
@@ -11226,6 +11262,9 @@
           },
           "dnsZoneResourceGroup": {
             "value": "[parameters('dnsZoneResourceGroup')]"
+          },
+          "privateEndpointRG": {
+            "value": "[variables('rgName')]"
           }
         },
         "template": {
@@ -11235,7 +11274,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "15937409363578746738"
+              "templateHash": "14041875979616341815"
             }
           },
           "parameters": {
@@ -11258,6 +11297,9 @@
               "type": "string"
             },
             "dnsZoneResourceGroup": {
+              "type": "string"
+            },
+            "privateEndpointRG": {
               "type": "string"
             }
           },
@@ -11306,7 +11348,7 @@
           "outputs": {
             "ipaddress": {
               "type": "string",
-              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('dnsZoneResourceGroup')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('privateEndpointRG')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
             }
           }
         }
@@ -11503,6 +11545,9 @@
           },
           "dnsZoneResourceGroup": {
             "value": "[parameters('dnsZoneResourceGroup')]"
+          },
+          "privateEndpointRG": {
+            "value": "[variables('rgName')]"
           }
         },
         "template": {
@@ -11512,7 +11557,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "15937409363578746738"
+              "templateHash": "14041875979616341815"
             }
           },
           "parameters": {
@@ -11535,6 +11580,9 @@
               "type": "string"
             },
             "dnsZoneResourceGroup": {
+              "type": "string"
+            },
+            "privateEndpointRG": {
               "type": "string"
             }
           },
@@ -11583,7 +11631,7 @@
           "outputs": {
             "ipaddress": {
               "type": "string",
-              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('dnsZoneResourceGroup')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('privateEndpointRG')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
             }
           }
         }
@@ -11779,6 +11827,9 @@
           },
           "privateDnsZoneName": {
             "value": "privatelink.cognitiveservices.azure.com"
+          },
+          "privateEndpointRG": {
+            "value": "[variables('rgName')]"
           }
         },
         "template": {
@@ -11788,7 +11839,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "15937409363578746738"
+              "templateHash": "14041875979616341815"
             }
           },
           "parameters": {
@@ -11811,6 +11862,9 @@
               "type": "string"
             },
             "dnsZoneResourceGroup": {
+              "type": "string"
+            },
+            "privateEndpointRG": {
               "type": "string"
             }
           },
@@ -11859,7 +11913,7 @@
           "outputs": {
             "ipaddress": {
               "type": "string",
-              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('dnsZoneResourceGroup')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('privateEndpointRG')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
             }
           }
         }
@@ -12260,6 +12314,9 @@
           },
           "dnsZoneResourceGroup": {
             "value": "[parameters('dnsZoneResourceGroup')]"
+          },
+          "privateEndpointRG": {
+            "value": "[variables('rgName')]"
           }
         },
         "template": {
@@ -12269,7 +12326,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "15937409363578746738"
+              "templateHash": "14041875979616341815"
             }
           },
           "parameters": {
@@ -12292,6 +12349,9 @@
               "type": "string"
             },
             "dnsZoneResourceGroup": {
+              "type": "string"
+            },
+            "privateEndpointRG": {
               "type": "string"
             }
           },
@@ -12340,7 +12400,7 @@
           "outputs": {
             "ipaddress": {
               "type": "string",
-              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('dnsZoneResourceGroup')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('privateEndpointRG')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
             }
           }
         }
@@ -12381,6 +12441,9 @@
           },
           "dnsZoneResourceGroup": {
             "value": "[parameters('dnsZoneResourceGroup')]"
+          },
+          "privateEndpointRG": {
+            "value": "[variables('rgName')]"
           }
         },
         "template": {
@@ -12390,7 +12453,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "15937409363578746738"
+              "templateHash": "14041875979616341815"
             }
           },
           "parameters": {
@@ -12413,6 +12476,9 @@
               "type": "string"
             },
             "dnsZoneResourceGroup": {
+              "type": "string"
+            },
+            "privateEndpointRG": {
               "type": "string"
             }
           },
@@ -12461,7 +12527,7 @@
           "outputs": {
             "ipaddress": {
               "type": "string",
-              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('dnsZoneResourceGroup')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+              "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, parameters('privateEndpointRG')), 'Microsoft.Network/privateEndpoints', parameters('name')), '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
             }
           }
         }

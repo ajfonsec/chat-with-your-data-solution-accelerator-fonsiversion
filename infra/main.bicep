@@ -371,6 +371,7 @@ module keyvaultPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' 
     subnetId: peSubsnet.id
     dnsZoneResourceGroup: dnsZoneResourceGroup
     privateDnsZoneName: 'privatelink.vaultcore.azure.net'
+    privateEndpointRG: rg.name
   }
 }
 
@@ -462,6 +463,7 @@ module openaiPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = 
     subnetId: peSubsnet.id
     dnsZoneResourceGroup: dnsZoneResourceGroup
     privateDnsZoneName: 'privatelink.openai.azure.com'
+    privateEndpointRG: rg.name
   }
 }
 
@@ -580,6 +582,7 @@ module speechServicePrivateEndpoint './core/private-endpoint/private-endpoint.bi
     subnetId: peSubsnet.id
     dnsZoneResourceGroup: dnsZoneResourceGroup
     privateDnsZoneName: 'privatelink.cognitiveservices.azure.com'
+    privateEndpointRG: rg.name
   }
 }
 
@@ -631,6 +634,7 @@ module searchPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = 
     subnetId: peSubsnet.id
     dnsZoneResourceGroup: dnsZoneResourceGroup
     privateDnsZoneName: 'privatelink.search.windows.net'
+    privateEndpointRG: rg.name
   }
 }
 
@@ -827,6 +831,7 @@ module webPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
     resourceEndpointType: 'sites'
     privateDnsZoneName: 'privatelink.azurewebsites.net'
     dnsZoneResourceGroup: dnsZoneResourceGroup
+    privateEndpointRG: rg.name
   }
 }
 
@@ -1004,6 +1009,7 @@ module webAdminPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = 
     resourceEndpointType: 'sites'
     privateDnsZoneName: 'privatelink.azurewebsites.net'
     dnsZoneResourceGroup: dnsZoneResourceGroup
+    privateEndpointRG: rg.name
   }
 }
 
@@ -1190,6 +1196,7 @@ module functionPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = 
     resourceEndpointType: 'sites'
     privateDnsZoneName: 'privatelink.azurewebsites.net'
     dnsZoneResourceGroup: dnsZoneResourceGroup
+    privateEndpointRG: rg.name
   }
 }
 
@@ -1215,6 +1222,7 @@ module formRecognizerPrivateEndpoint 'core/private-endpoint/private-endpoint.bic
     resourceEndpointType: 'account'
     privateDnsZoneName: 'privatelink.cognitiveservices.azure.com'
     dnsZoneResourceGroup: dnsZoneResourceGroup
+    privateEndpointRG: rg.name
   }
 }
 
@@ -1241,6 +1249,7 @@ module contentSafetyPrivateEndpoint './core/private-endpoint/private-endpoint.bi
     subnetId: peSubsnet.id
     dnsZoneResourceGroup: dnsZoneResourceGroup
     privateDnsZoneName: 'privatelink.cognitiveservices.azure.com'
+    privateEndpointRG: rg.name
   }
 }
 
@@ -1303,6 +1312,7 @@ module storageBlobPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep'
     resourceEndpointType: 'blob'
     privateDnsZoneName: 'privatelink.blob.core.windows.net'
     dnsZoneResourceGroup: dnsZoneResourceGroup
+    privateEndpointRG: rg.name
   }
 }
 
@@ -1317,6 +1327,7 @@ module storageQueuePrivateEndpoint 'core/private-endpoint/private-endpoint.bicep
     resourceEndpointType: 'queue'
     privateDnsZoneName: 'privatelink.queue.core.windows.net'
     dnsZoneResourceGroup: dnsZoneResourceGroup
+    privateEndpointRG: rg.name
   }
 }
 

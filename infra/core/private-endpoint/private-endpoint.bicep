@@ -6,6 +6,7 @@ param location string
 param subnetId string
 param privateDnsZoneName string
 param dnsZoneResourceGroup string
+param privateEndpointRG string
 
 
 resource privateDnsZone 'Microsoft.Network/privateDnsZones@2020-06-01' existing = {
@@ -55,7 +56,7 @@ resource pvtEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
 
 resource existingkeyvault 'Microsoft.Network/privateEndpoints@2020-06-01' existing = {
   name: privateEndpoint.name
-  scope: resourceGroup(dnsZoneResourceGroup)
+  scope: resourceGroup(privateEndpointRG)
 }
 
 output ipaddress string = reference(existingkeyvault.id, '2020-06-01').properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress

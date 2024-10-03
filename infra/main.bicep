@@ -347,6 +347,11 @@ resource vnetIntSubsnet 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' e
   name: '${vnetName}/${vnetIntegrationSubnet}'
 }
 
+// resource hubprivatednszone 'Microsoft.Network/privateDnsZones@2020-06-01' = {
+//   name: 'privatelink.azurewebsites.net'
+//   scope: resourceGroup(dnsZoneResourceGroup)
+// }
+
 // Store secrets in a keyvault
 module keyvault './core/security/keyvault.bicep' = if (useKeyVault || authType == 'rbac') {
   name: 'keyvault'
@@ -372,23 +377,24 @@ module keyvaultPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' 
     dnsZoneResourceGroup: dnsZoneResourceGroup
     privateDnsZoneName: 'privatelink.vaultcore.azure.net'
     privateEndpointRG: rg.name
+    hubprtdnszoneid: '/subscriptions/ff83adb2-a0d5-4c0d-b367-508fec6a53cb/resourceGroups/intel_it_hybrid_production_private_dns_zone/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net'
   }
 }
 
 
 
-module dnsRecordSetModule './core/private-endpoint/dnsRecordSetModule.bicep' = {
-  name: 'dnsRecordSetModule'
-  dependsOn: [keyvaultPrivateEndpoint]
-  scope: resourceGroup(dnsZoneSubscriptionId, dnsZoneRG)
-  params: {
-    dnsZoneName: 'privatelink.vaultcore.azure.net'
-    recordSetName: keyVaultName
-    ttl: ttl
-    ipAddresses: [keyvaultPrivateEndpoint.outputs.ipaddress]
-    location: 'eastus2'
-  }
-}
+// module dnsRecordSetModule './core/private-endpoint/dnsRecordSetModule.bicep' = {
+//   name: 'dnsRecordSetModule'
+//   dependsOn: [keyvaultPrivateEndpoint]
+//   scope: resourceGroup(dnsZoneSubscriptionId, dnsZoneRG)
+//   params: {
+//     dnsZoneName: 'privatelink.vaultcore.azure.net'
+//     recordSetName: keyVaultName
+//     ttl: ttl
+//     ipAddresses: [keyvaultPrivateEndpoint.outputs.ipaddress]
+//     location: 'eastus2'
+//   }
+// }
 
 var defaultOpenAiDeployments = [
   {

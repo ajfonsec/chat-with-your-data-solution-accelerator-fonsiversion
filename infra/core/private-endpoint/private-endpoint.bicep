@@ -6,7 +6,8 @@ param location string
 param subnetId string
 param privateDnsZoneName string
 param dnsZoneResourceGroup string
-param privateEndpointRG string
+param privateEndpointRG string = ''
+param hubprtdnszoneid string = ''
 
 
 resource privateDnsZone 'Microsoft.Network/privateDnsZones@2020-06-01' existing = {
@@ -43,7 +44,7 @@ resource pvtEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
       {
         name: 'config1'
         properties: {
-          privateDnsZoneId: privateDnsZone.id
+          privateDnsZoneId: hubprtdnszoneid
         }
       }
     ]
@@ -55,13 +56,13 @@ resource pvtEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
 
 // Try to access the existing private endpoint from here 
 
-resource existingkeyvault 'Microsoft.Network/privateEndpoints@2020-06-01' existing = {
-  name: privateEndpoint.name
-  scope: resourceGroup(privateEndpointRG)
-}
+// resource existingkeyvault 'Microsoft.Network/privateEndpoints@2020-06-01' existing = {
+//   name: privateEndpoint.name
+//   scope: resourceGroup(privateEndpointRG)
+// }
 
-resource vnetofprtendpint 'Microsoft.Network/networkInterfaces@2020-06-01' existing = {
-  name: existingkeyvault.properties.networkInterfaces[0].name
-}
-output ipaddress string = reference(vnetofprtendpint.id, '2020-06-01').ipConfigurations[0].properties.privateIPAddress
+// resource vnetofprtendpint 'Microsoft.Network/networkInterfaces@2020-06-01' existing = {
+//   name: existingkeyvault.properties.networkInterfaces[0].name
+// }
+// output ipaddress string = vnetofprtendpint.properties.ipConfigurations[0].properties.privateIPAddress
 // reference(resourceId('Microsoft.Network/networkInterfaces', parameters('nicName')), '2021-08-01').ipConfigurations[0].properties.privateIPAddress]

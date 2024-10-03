@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "18044914702088909121"
+      "templateHash": "15351872018464360110"
     }
   },
   "parameters": {
@@ -839,11 +839,11 @@
           "privateDnsZoneName": {
             "value": "privatelink.vaultcore.azure.net"
           },
-          "privateEndpointRG": {
-            "value": "[variables('rgName')]"
+          "privatednszoneRG": {
+            "value": "[parameters('dnsZoneRG')]"
           },
-          "hubprtdnszoneid": {
-            "value": "/subscriptions/ff83adb2-a0d5-4c0d-b367-508fec6a53cb/resourceGroups/intel_it_hybrid_production_private_dns_zone/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net"
+          "privatednszoneSub": {
+            "value": "[parameters('dnsZoneSubscriptionId')]"
           }
         },
         "template": {
@@ -853,7 +853,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "657154670445691732"
+              "templateHash": "14011141685756265727"
             }
           },
           "parameters": {
@@ -878,11 +878,11 @@
             "dnsZoneResourceGroup": {
               "type": "string"
             },
-            "privateEndpointRG": {
+            "privatednszoneRG": {
               "type": "string",
               "defaultValue": ""
             },
-            "hubprtdnszoneid": {
+            "privatednszoneSub": {
               "type": "string",
               "defaultValue": ""
             }
@@ -919,7 +919,7 @@
                   {
                     "name": "config1",
                     "properties": {
-                      "privateDnsZoneId": "[parameters('hubprtdnszoneid')]"
+                      "privateDnsZoneId": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', parameters('privatednszoneSub'), parameters('privatednszoneRG')), 'Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName'))]"
                     }
                   }
                 ]
@@ -1131,8 +1131,11 @@
           "privateDnsZoneName": {
             "value": "privatelink.openai.azure.com"
           },
-          "privateEndpointRG": {
-            "value": "[variables('rgName')]"
+          "privatednszoneRG": {
+            "value": "[parameters('dnsZoneRG')]"
+          },
+          "privatednszoneSub": {
+            "value": "[parameters('dnsZoneSubscriptionId')]"
           }
         },
         "template": {
@@ -1142,7 +1145,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "657154670445691732"
+              "templateHash": "14011141685756265727"
             }
           },
           "parameters": {
@@ -1167,11 +1170,11 @@
             "dnsZoneResourceGroup": {
               "type": "string"
             },
-            "privateEndpointRG": {
+            "privatednszoneRG": {
               "type": "string",
               "defaultValue": ""
             },
-            "hubprtdnszoneid": {
+            "privatednszoneSub": {
               "type": "string",
               "defaultValue": ""
             }
@@ -1208,7 +1211,7 @@
                   {
                     "name": "config1",
                     "properties": {
-                      "privateDnsZoneId": "[parameters('hubprtdnszoneid')]"
+                      "privateDnsZoneId": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', parameters('privatednszoneSub'), parameters('privatednszoneRG')), 'Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName'))]"
                     }
                   }
                 ]
@@ -1959,8 +1962,11 @@
           "privateDnsZoneName": {
             "value": "privatelink.cognitiveservices.azure.com"
           },
-          "privateEndpointRG": {
-            "value": "[variables('rgName')]"
+          "privatednszoneRG": {
+            "value": "[parameters('dnsZoneRG')]"
+          },
+          "privatednszoneSub": {
+            "value": "[parameters('dnsZoneSubscriptionId')]"
           }
         },
         "template": {
@@ -1970,7 +1976,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "657154670445691732"
+              "templateHash": "14011141685756265727"
             }
           },
           "parameters": {
@@ -1995,11 +2001,11 @@
             "dnsZoneResourceGroup": {
               "type": "string"
             },
-            "privateEndpointRG": {
+            "privatednszoneRG": {
               "type": "string",
               "defaultValue": ""
             },
-            "hubprtdnszoneid": {
+            "privatednszoneSub": {
               "type": "string",
               "defaultValue": ""
             }
@@ -2036,7 +2042,7 @@
                   {
                     "name": "config1",
                     "properties": {
-                      "privateDnsZoneId": "[parameters('hubprtdnszoneid')]"
+                      "privateDnsZoneId": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', parameters('privatednszoneSub'), parameters('privatednszoneRG')), 'Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName'))]"
                     }
                   }
                 ]
@@ -2473,8 +2479,11 @@
           "privateDnsZoneName": {
             "value": "privatelink.search.windows.net"
           },
-          "privateEndpointRG": {
-            "value": "[variables('rgName')]"
+          "privatednszoneRG": {
+            "value": "[parameters('dnsZoneRG')]"
+          },
+          "privatednszoneSub": {
+            "value": "[parameters('dnsZoneSubscriptionId')]"
           }
         },
         "template": {
@@ -2484,7 +2493,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "657154670445691732"
+              "templateHash": "14011141685756265727"
             }
           },
           "parameters": {
@@ -2509,11 +2518,11 @@
             "dnsZoneResourceGroup": {
               "type": "string"
             },
-            "privateEndpointRG": {
+            "privatednszoneRG": {
               "type": "string",
               "defaultValue": ""
             },
-            "hubprtdnszoneid": {
+            "privatednszoneSub": {
               "type": "string",
               "defaultValue": ""
             }
@@ -2550,7 +2559,7 @@
                   {
                     "name": "config1",
                     "properties": {
-                      "privateDnsZoneId": "[parameters('hubprtdnszoneid')]"
+                      "privateDnsZoneId": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', parameters('privatednszoneSub'), parameters('privatednszoneRG')), 'Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName'))]"
                     }
                   }
                 ]
@@ -4661,8 +4670,11 @@
           "dnsZoneResourceGroup": {
             "value": "[parameters('dnsZoneResourceGroup')]"
           },
-          "privateEndpointRG": {
-            "value": "[variables('rgName')]"
+          "privatednszoneRG": {
+            "value": "[parameters('dnsZoneRG')]"
+          },
+          "privatednszoneSub": {
+            "value": "[parameters('dnsZoneSubscriptionId')]"
           }
         },
         "template": {
@@ -4672,7 +4684,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "657154670445691732"
+              "templateHash": "14011141685756265727"
             }
           },
           "parameters": {
@@ -4697,11 +4709,11 @@
             "dnsZoneResourceGroup": {
               "type": "string"
             },
-            "privateEndpointRG": {
+            "privatednszoneRG": {
               "type": "string",
               "defaultValue": ""
             },
-            "hubprtdnszoneid": {
+            "privatednszoneSub": {
               "type": "string",
               "defaultValue": ""
             }
@@ -4738,7 +4750,7 @@
                   {
                     "name": "config1",
                     "properties": {
-                      "privateDnsZoneId": "[parameters('hubprtdnszoneid')]"
+                      "privateDnsZoneId": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', parameters('privatednszoneSub'), parameters('privatednszoneRG')), 'Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName'))]"
                     }
                   }
                 ]
@@ -6731,8 +6743,11 @@
           "dnsZoneResourceGroup": {
             "value": "[parameters('dnsZoneResourceGroup')]"
           },
-          "privateEndpointRG": {
-            "value": "[variables('rgName')]"
+          "privatednszoneRG": {
+            "value": "[parameters('dnsZoneRG')]"
+          },
+          "privatednszoneSub": {
+            "value": "[parameters('dnsZoneSubscriptionId')]"
           }
         },
         "template": {
@@ -6742,7 +6757,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "657154670445691732"
+              "templateHash": "14011141685756265727"
             }
           },
           "parameters": {
@@ -6767,11 +6782,11 @@
             "dnsZoneResourceGroup": {
               "type": "string"
             },
-            "privateEndpointRG": {
+            "privatednszoneRG": {
               "type": "string",
               "defaultValue": ""
             },
-            "hubprtdnszoneid": {
+            "privatednszoneSub": {
               "type": "string",
               "defaultValue": ""
             }
@@ -6808,7 +6823,7 @@
                   {
                     "name": "config1",
                     "properties": {
-                      "privateDnsZoneId": "[parameters('hubprtdnszoneid')]"
+                      "privateDnsZoneId": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', parameters('privatednszoneSub'), parameters('privatednszoneRG')), 'Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName'))]"
                     }
                   }
                 ]
@@ -11158,8 +11173,11 @@
           "dnsZoneResourceGroup": {
             "value": "[parameters('dnsZoneResourceGroup')]"
           },
-          "privateEndpointRG": {
-            "value": "[variables('rgName')]"
+          "privatednszoneRG": {
+            "value": "[parameters('dnsZoneRG')]"
+          },
+          "privatednszoneSub": {
+            "value": "[parameters('dnsZoneSubscriptionId')]"
           }
         },
         "template": {
@@ -11169,7 +11187,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "657154670445691732"
+              "templateHash": "14011141685756265727"
             }
           },
           "parameters": {
@@ -11194,11 +11212,11 @@
             "dnsZoneResourceGroup": {
               "type": "string"
             },
-            "privateEndpointRG": {
+            "privatednszoneRG": {
               "type": "string",
               "defaultValue": ""
             },
-            "hubprtdnszoneid": {
+            "privatednszoneSub": {
               "type": "string",
               "defaultValue": ""
             }
@@ -11235,7 +11253,7 @@
                   {
                     "name": "config1",
                     "properties": {
-                      "privateDnsZoneId": "[parameters('hubprtdnszoneid')]"
+                      "privateDnsZoneId": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', parameters('privatednszoneSub'), parameters('privatednszoneRG')), 'Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName'))]"
                     }
                   }
                 ]
@@ -11440,8 +11458,11 @@
           "dnsZoneResourceGroup": {
             "value": "[parameters('dnsZoneResourceGroup')]"
           },
-          "privateEndpointRG": {
-            "value": "[variables('rgName')]"
+          "privatednszoneRG": {
+            "value": "[parameters('dnsZoneRG')]"
+          },
+          "privatednszoneSub": {
+            "value": "[parameters('dnsZoneSubscriptionId')]"
           }
         },
         "template": {
@@ -11451,7 +11472,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "657154670445691732"
+              "templateHash": "14011141685756265727"
             }
           },
           "parameters": {
@@ -11476,11 +11497,11 @@
             "dnsZoneResourceGroup": {
               "type": "string"
             },
-            "privateEndpointRG": {
+            "privatednszoneRG": {
               "type": "string",
               "defaultValue": ""
             },
-            "hubprtdnszoneid": {
+            "privatednszoneSub": {
               "type": "string",
               "defaultValue": ""
             }
@@ -11517,7 +11538,7 @@
                   {
                     "name": "config1",
                     "properties": {
-                      "privateDnsZoneId": "[parameters('hubprtdnszoneid')]"
+                      "privateDnsZoneId": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', parameters('privatednszoneSub'), parameters('privatednszoneRG')), 'Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName'))]"
                     }
                   }
                 ]
@@ -11721,8 +11742,11 @@
           "privateDnsZoneName": {
             "value": "privatelink.cognitiveservices.azure.com"
           },
-          "privateEndpointRG": {
-            "value": "[variables('rgName')]"
+          "privatednszoneRG": {
+            "value": "[parameters('dnsZoneRG')]"
+          },
+          "privatednszoneSub": {
+            "value": "[parameters('dnsZoneSubscriptionId')]"
           }
         },
         "template": {
@@ -11732,7 +11756,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "657154670445691732"
+              "templateHash": "14011141685756265727"
             }
           },
           "parameters": {
@@ -11757,11 +11781,11 @@
             "dnsZoneResourceGroup": {
               "type": "string"
             },
-            "privateEndpointRG": {
+            "privatednszoneRG": {
               "type": "string",
               "defaultValue": ""
             },
-            "hubprtdnszoneid": {
+            "privatednszoneSub": {
               "type": "string",
               "defaultValue": ""
             }
@@ -11798,7 +11822,7 @@
                   {
                     "name": "config1",
                     "properties": {
-                      "privateDnsZoneId": "[parameters('hubprtdnszoneid')]"
+                      "privateDnsZoneId": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', parameters('privatednszoneSub'), parameters('privatednszoneRG')), 'Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName'))]"
                     }
                   }
                 ]
@@ -12207,8 +12231,11 @@
           "dnsZoneResourceGroup": {
             "value": "[parameters('dnsZoneResourceGroup')]"
           },
-          "privateEndpointRG": {
-            "value": "[variables('rgName')]"
+          "privatednszoneRG": {
+            "value": "[parameters('dnsZoneRG')]"
+          },
+          "privatednszoneSub": {
+            "value": "[parameters('dnsZoneSubscriptionId')]"
           }
         },
         "template": {
@@ -12218,7 +12245,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "657154670445691732"
+              "templateHash": "14011141685756265727"
             }
           },
           "parameters": {
@@ -12243,11 +12270,11 @@
             "dnsZoneResourceGroup": {
               "type": "string"
             },
-            "privateEndpointRG": {
+            "privatednszoneRG": {
               "type": "string",
               "defaultValue": ""
             },
-            "hubprtdnszoneid": {
+            "privatednszoneSub": {
               "type": "string",
               "defaultValue": ""
             }
@@ -12284,7 +12311,7 @@
                   {
                     "name": "config1",
                     "properties": {
-                      "privateDnsZoneId": "[parameters('hubprtdnszoneid')]"
+                      "privateDnsZoneId": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', parameters('privatednszoneSub'), parameters('privatednszoneRG')), 'Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName'))]"
                     }
                   }
                 ]
@@ -12333,8 +12360,11 @@
           "dnsZoneResourceGroup": {
             "value": "[parameters('dnsZoneResourceGroup')]"
           },
-          "privateEndpointRG": {
-            "value": "[variables('rgName')]"
+          "privatednszoneRG": {
+            "value": "[parameters('dnsZoneRG')]"
+          },
+          "privatednszoneSub": {
+            "value": "[parameters('dnsZoneSubscriptionId')]"
           }
         },
         "template": {
@@ -12344,7 +12374,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "657154670445691732"
+              "templateHash": "14011141685756265727"
             }
           },
           "parameters": {
@@ -12369,11 +12399,11 @@
             "dnsZoneResourceGroup": {
               "type": "string"
             },
-            "privateEndpointRG": {
+            "privatednszoneRG": {
               "type": "string",
               "defaultValue": ""
             },
-            "hubprtdnszoneid": {
+            "privatednszoneSub": {
               "type": "string",
               "defaultValue": ""
             }
@@ -12410,7 +12440,7 @@
                   {
                     "name": "config1",
                     "properties": {
-                      "privateDnsZoneId": "[parameters('hubprtdnszoneid')]"
+                      "privateDnsZoneId": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', parameters('privatednszoneSub'), parameters('privatednszoneRG')), 'Microsoft.Network/privateDnsZones', parameters('privateDnsZoneName'))]"
                     }
                   }
                 ]

@@ -376,8 +376,8 @@ module keyvaultPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' 
     subnetId: peSubsnet.id
     dnsZoneResourceGroup: dnsZoneResourceGroup
     privateDnsZoneName: 'privatelink.vaultcore.azure.net'
-    privateEndpointRG: rg.name
-    hubprtdnszoneid: '/subscriptions/ff83adb2-a0d5-4c0d-b367-508fec6a53cb/resourceGroups/intel_it_hybrid_production_private_dns_zone/providers/Microsoft.Network/privateDnsZones/privatelink.vaultcore.azure.net'
+    privatednszoneRG: dnsZoneRG
+    privatednszoneSub: dnsZoneSubscriptionId
   }
 }
 
@@ -469,7 +469,8 @@ module openaiPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = 
     subnetId: peSubsnet.id
     dnsZoneResourceGroup: dnsZoneResourceGroup
     privateDnsZoneName: 'privatelink.openai.azure.com'
-    privateEndpointRG: rg.name
+    privatednszoneRG: dnsZoneRG
+    privatednszoneSub: dnsZoneSubscriptionId
   }
 }
 
@@ -588,7 +589,8 @@ module speechServicePrivateEndpoint './core/private-endpoint/private-endpoint.bi
     subnetId: peSubsnet.id
     dnsZoneResourceGroup: dnsZoneResourceGroup
     privateDnsZoneName: 'privatelink.cognitiveservices.azure.com'
-    privateEndpointRG: rg.name
+    privatednszoneRG: dnsZoneRG
+    privatednszoneSub: dnsZoneSubscriptionId
   }
 }
 
@@ -640,7 +642,8 @@ module searchPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = 
     subnetId: peSubsnet.id
     dnsZoneResourceGroup: dnsZoneResourceGroup
     privateDnsZoneName: 'privatelink.search.windows.net'
-    privateEndpointRG: rg.name
+    privatednszoneRG: dnsZoneRG
+    privatednszoneSub: dnsZoneSubscriptionId
   }
 }
 
@@ -837,7 +840,8 @@ module webPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
     resourceEndpointType: 'sites'
     privateDnsZoneName: 'privatelink.azurewebsites.net'
     dnsZoneResourceGroup: dnsZoneResourceGroup
-    privateEndpointRG: rg.name
+    privatednszoneRG: dnsZoneRG
+    privatednszoneSub: dnsZoneSubscriptionId 
   }
 }
 
@@ -1015,7 +1019,8 @@ module webAdminPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = 
     resourceEndpointType: 'sites'
     privateDnsZoneName: 'privatelink.azurewebsites.net'
     dnsZoneResourceGroup: dnsZoneResourceGroup
-    privateEndpointRG: rg.name
+    privatednszoneRG: dnsZoneRG
+    privatednszoneSub: dnsZoneSubscriptionId
   }
 }
 
@@ -1202,7 +1207,8 @@ module functionPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = 
     resourceEndpointType: 'sites'
     privateDnsZoneName: 'privatelink.azurewebsites.net'
     dnsZoneResourceGroup: dnsZoneResourceGroup
-    privateEndpointRG: rg.name
+    privatednszoneRG: dnsZoneRG
+    privatednszoneSub: dnsZoneSubscriptionId
   }
 }
 
@@ -1228,7 +1234,8 @@ module formRecognizerPrivateEndpoint 'core/private-endpoint/private-endpoint.bic
     resourceEndpointType: 'account'
     privateDnsZoneName: 'privatelink.cognitiveservices.azure.com'
     dnsZoneResourceGroup: dnsZoneResourceGroup
-    privateEndpointRG: rg.name
+    privatednszoneRG: dnsZoneRG
+    privatednszoneSub: dnsZoneSubscriptionId
   }
 }
 
@@ -1255,7 +1262,8 @@ module contentSafetyPrivateEndpoint './core/private-endpoint/private-endpoint.bi
     subnetId: peSubsnet.id
     dnsZoneResourceGroup: dnsZoneResourceGroup
     privateDnsZoneName: 'privatelink.cognitiveservices.azure.com'
-    privateEndpointRG: rg.name
+    privatednszoneRG: dnsZoneRG
+    privatednszoneSub: dnsZoneSubscriptionId
   }
 }
 
@@ -1318,7 +1326,8 @@ module storageBlobPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep'
     resourceEndpointType: 'blob'
     privateDnsZoneName: 'privatelink.blob.core.windows.net'
     dnsZoneResourceGroup: dnsZoneResourceGroup
-    privateEndpointRG: rg.name
+    privatednszoneRG: dnsZoneRG
+    privatednszoneSub: dnsZoneSubscriptionId
   }
 }
 
@@ -1333,7 +1342,8 @@ module storageQueuePrivateEndpoint 'core/private-endpoint/private-endpoint.bicep
     resourceEndpointType: 'queue'
     privateDnsZoneName: 'privatelink.queue.core.windows.net'
     dnsZoneResourceGroup: dnsZoneResourceGroup
-    privateEndpointRG: rg.name
+    privatednszoneRG: dnsZoneRG
+    privatednszoneSub: dnsZoneSubscriptionId
   }
 }
 

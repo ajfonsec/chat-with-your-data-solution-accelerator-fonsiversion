@@ -50,4 +50,12 @@ resource pvtEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
 }
 
 
-output privateendpointname string = privateEndpoint.name
+
+// Try to access the existing private endpoint from here 
+
+resource existingkeyvault 'Microsoft.Network/privateEndpoints@2020-06-01' existing = {
+  name: privateEndpoint.name
+  scope: resourceGroup(dnsZoneResourceGroup)
+}
+
+output ipaddress string = reference(existingkeyvault.id).properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress

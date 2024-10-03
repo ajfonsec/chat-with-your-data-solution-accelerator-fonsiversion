@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "12363162956670103256"
+      "templateHash": "14989051061076147298"
     }
   },
   "parameters": {
@@ -847,7 +847,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "9338483983988176482"
+              "templateHash": "1364114745580572133"
             }
           },
           "parameters": {
@@ -916,9 +916,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointId": {
+            "privateendpointname": {
               "type": "string",
-              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
+              "value": "[parameters('name')]"
             }
           }
         }
@@ -951,11 +951,11 @@
           },
           "ipAddresses": {
             "value": [
-              "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Network/privateEndpoints', variables('keyVaultName')), '2020-06-01').networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
+              "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Network/privateEndpoints', reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'keyvault-private-endpoint'), '2022-09-01').outputs.privateendpointname.value)).properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
             ]
           },
           "location": {
-            "value": "global"
+            "value": "eastus2"
           }
         },
         "template": {
@@ -1027,6 +1027,7 @@
         }
       },
       "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', 'keyvault-private-endpoint')]",
         "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
       ]
     },
@@ -1233,7 +1234,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "9338483983988176482"
+              "templateHash": "1364114745580572133"
             }
           },
           "parameters": {
@@ -1302,9 +1303,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointId": {
+            "privateendpointname": {
               "type": "string",
-              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
+              "value": "[parameters('name')]"
             }
           }
         }
@@ -2056,7 +2057,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "9338483983988176482"
+              "templateHash": "1364114745580572133"
             }
           },
           "parameters": {
@@ -2125,9 +2126,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointId": {
+            "privateendpointname": {
               "type": "string",
-              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
+              "value": "[parameters('name')]"
             }
           }
         }
@@ -2565,7 +2566,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "9338483983988176482"
+              "templateHash": "1364114745580572133"
             }
           },
           "parameters": {
@@ -2634,9 +2635,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointId": {
+            "privateendpointname": {
               "type": "string",
-              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
+              "value": "[parameters('name')]"
             }
           }
         }
@@ -4748,7 +4749,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "9338483983988176482"
+              "templateHash": "1364114745580572133"
             }
           },
           "parameters": {
@@ -4817,9 +4818,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointId": {
+            "privateendpointname": {
               "type": "string",
-              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
+              "value": "[parameters('name')]"
             }
           }
         }
@@ -6813,7 +6814,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "9338483983988176482"
+              "templateHash": "1364114745580572133"
             }
           },
           "parameters": {
@@ -6882,9 +6883,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointId": {
+            "privateendpointname": {
               "type": "string",
-              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
+              "value": "[parameters('name')]"
             }
           }
         }
@@ -11235,7 +11236,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "9338483983988176482"
+              "templateHash": "1364114745580572133"
             }
           },
           "parameters": {
@@ -11304,9 +11305,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointId": {
+            "privateendpointname": {
               "type": "string",
-              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
+              "value": "[parameters('name')]"
             }
           }
         }
@@ -11512,7 +11513,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "9338483983988176482"
+              "templateHash": "1364114745580572133"
             }
           },
           "parameters": {
@@ -11581,9 +11582,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointId": {
+            "privateendpointname": {
               "type": "string",
-              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
+              "value": "[parameters('name')]"
             }
           }
         }
@@ -11788,7 +11789,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "9338483983988176482"
+              "templateHash": "1364114745580572133"
             }
           },
           "parameters": {
@@ -11857,9 +11858,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointId": {
+            "privateendpointname": {
               "type": "string",
-              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
+              "value": "[parameters('name')]"
             }
           }
         }
@@ -12269,7 +12270,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "9338483983988176482"
+              "templateHash": "1364114745580572133"
             }
           },
           "parameters": {
@@ -12338,9 +12339,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointId": {
+            "privateendpointname": {
               "type": "string",
-              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
+              "value": "[parameters('name')]"
             }
           }
         }
@@ -12390,7 +12391,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "9338483983988176482"
+              "templateHash": "1364114745580572133"
             }
           },
           "parameters": {
@@ -12459,9 +12460,9 @@
             }
           ],
           "outputs": {
-            "privateEndpointId": {
+            "privateendpointname": {
               "type": "string",
-              "value": "[resourceId('Microsoft.Network/privateEndpoints', parameters('name'))]"
+              "value": "[parameters('name')]"
             }
           }
         }

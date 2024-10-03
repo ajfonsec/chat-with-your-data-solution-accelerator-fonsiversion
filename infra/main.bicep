@@ -377,19 +377,20 @@ module keyvaultPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' 
 // Try to access the existing private endpoint from here 
 
 resource existingkeyvault 'Microsoft.Network/privateEndpoints@2020-06-01' existing = {
-  name: keyVaultName
+  name: keyvaultPrivateEndpoint.outputs.privateendpointname
   scope: rg
 }
 
 module dnsRecordSetModule './core/private-endpoint/dnsRecordSetModule.bicep' = {
   name: 'dnsRecordSetModule'
+  dependsOn: [keyvaultPrivateEndpoint]
   scope: resourceGroup(dnsZoneSubscriptionId, dnsZoneRG)
   params: {
     dnsZoneName: 'privatelink.vaultcore.azure.net'
     recordSetName: keyVaultName
     ttl: ttl
-    ipAddresses: [existingkeyvault.properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]
-    location: 'global'
+    ipAddresses: [reference(existingkeyvault.id).properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]
+    location: 'eastus2'
   }
 }
 

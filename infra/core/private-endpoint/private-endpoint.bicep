@@ -50,4 +50,4 @@ resource pvtEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
 }
 
 
-output privateEndpointId string = privateEndpoint.id
+output privateendpointname string = privateEndpoint.name

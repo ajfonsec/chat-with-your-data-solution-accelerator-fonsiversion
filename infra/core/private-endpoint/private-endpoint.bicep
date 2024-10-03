@@ -60,4 +60,4 @@ resource existingkeyvault 'Microsoft.Network/privateEndpoints@2020-06-01' existi
   scope: resourceGroup(privateEndpointRG)
 }
 
-output ipaddress string = reference(existingkeyvault.id, '2020-06-01').networkInterfaces[0].ipConfigurations[0].privateIPAddress
+output ipaddress string = reference(existingkeyvault.id, '2021-05-01').properties.customDnsConfigs.ipAddresses

@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "4991191254449710323"
+      "templateHash": "779525664312605308"
     }
   },
   "parameters": {
@@ -840,7 +840,7 @@
             "value": "privatelink.vaultcore.azure.net"
           },
           "privatednszoneRG": {
-            "value": "[parameters('dnsZoneRG')]"
+            "value": "[toLower(parameters('dnsZoneRG'))]"
           },
           "privatednszoneSub": {
             "value": "[parameters('dnsZoneSubscriptionId')]"
@@ -1132,7 +1132,7 @@
             "value": "privatelink.openai.azure.com"
           },
           "privatednszoneRG": {
-            "value": "[parameters('dnsZoneRG')]"
+            "value": "[toLower(parameters('dnsZoneRG'))]"
           },
           "privatednszoneSub": {
             "value": "[parameters('dnsZoneSubscriptionId')]"
@@ -1861,7 +1861,7 @@
             "value": "privatelink.cognitiveservices.azure.com"
           },
           "privatednszoneRG": {
-            "value": "[parameters('dnsZoneRG')]"
+            "value": "[toLower(parameters('dnsZoneRG'))]"
           },
           "privatednszoneSub": {
             "value": "[parameters('dnsZoneSubscriptionId')]"
@@ -2378,7 +2378,7 @@
             "value": "privatelink.search.windows.net"
           },
           "privatednszoneRG": {
-            "value": "[parameters('dnsZoneRG')]"
+            "value": "[toLower(parameters('dnsZoneRG'))]"
           },
           "privatednszoneSub": {
             "value": "[parameters('dnsZoneSubscriptionId')]"
@@ -4569,7 +4569,7 @@
             "value": "[parameters('dnsZoneResourceGroup')]"
           },
           "privatednszoneRG": {
-            "value": "[parameters('dnsZoneRG')]"
+            "value": "[toLower(parameters('dnsZoneRG'))]"
           },
           "privatednszoneSub": {
             "value": "[parameters('dnsZoneSubscriptionId')]"
@@ -6642,7 +6642,7 @@
             "value": "[parameters('dnsZoneResourceGroup')]"
           },
           "privatednszoneRG": {
-            "value": "[parameters('dnsZoneRG')]"
+            "value": "[toLower(parameters('dnsZoneRG'))]"
           },
           "privatednszoneSub": {
             "value": "[parameters('dnsZoneSubscriptionId')]"
@@ -11072,7 +11072,7 @@
             "value": "[parameters('dnsZoneResourceGroup')]"
           },
           "privatednszoneRG": {
-            "value": "[parameters('dnsZoneRG')]"
+            "value": "[toLower(parameters('dnsZoneRG'))]"
           },
           "privatednszoneSub": {
             "value": "[parameters('dnsZoneSubscriptionId')]"
@@ -11357,7 +11357,7 @@
             "value": "[parameters('dnsZoneResourceGroup')]"
           },
           "privatednszoneRG": {
-            "value": "[parameters('dnsZoneRG')]"
+            "value": "[toLower(parameters('dnsZoneRG'))]"
           },
           "privatednszoneSub": {
             "value": "[parameters('dnsZoneSubscriptionId')]"
@@ -11641,7 +11641,7 @@
             "value": "privatelink.cognitiveservices.azure.com"
           },
           "privatednszoneRG": {
-            "value": "[parameters('dnsZoneRG')]"
+            "value": "[toLower(parameters('dnsZoneRG'))]"
           },
           "privatednszoneSub": {
             "value": "[parameters('dnsZoneSubscriptionId')]"
@@ -12130,7 +12130,7 @@
             "value": "[parameters('dnsZoneResourceGroup')]"
           },
           "privatednszoneRG": {
-            "value": "[parameters('dnsZoneRG')]"
+            "value": "[toLower(parameters('dnsZoneRG'))]"
           },
           "privatednszoneSub": {
             "value": "[parameters('dnsZoneSubscriptionId')]"
@@ -12259,7 +12259,7 @@
             "value": "[parameters('dnsZoneResourceGroup')]"
           },
           "privatednszoneRG": {
-            "value": "[parameters('dnsZoneRG')]"
+            "value": "[toLower(parameters('dnsZoneRG'))]"
           },
           "privatednszoneSub": {
             "value": "[parameters('dnsZoneSubscriptionId')]"

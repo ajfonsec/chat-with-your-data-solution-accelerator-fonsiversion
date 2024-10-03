@@ -474,23 +474,6 @@ module openaiPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = 
   }
 }
 
-resource existingopenai 'Microsoft.Network/privateEndpoints@2020-06-01' existing = {
-  name: azureOpenAIResourceName
-  scope: rg
-}
-
-module dnsRecordSetModuleopenai './core/private-endpoint/dnsRecordSetModule.bicep' = {
-  name: 'dnsRecordSetModuleopenai'
-  scope: resourceGroup(dnsZoneSubscriptionId, dnsZoneRG)
-  params: {
-    dnsZoneName: 'privatelink.vaultcore.azure.net'
-    recordSetName: keyVaultName
-    ttl: ttl
-    ipAddresses: [existingopenai.properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]
-    location: 'global'
-  }
-}
-
 
 module computerVision 'core/ai/cognitiveservices.bicep' = if (useAdvancedImageProcessing) {
   name: 'computerVision'

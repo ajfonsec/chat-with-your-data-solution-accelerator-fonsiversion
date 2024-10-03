@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "15351872018464360110"
+      "templateHash": "4991191254449710323"
     }
   },
   "parameters": {
@@ -1225,108 +1225,6 @@
       },
       "dependsOn": [
         "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureOpenAIResourceName'))]",
-        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
-      ]
-    },
-    {
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "2022-09-01",
-      "name": "dnsRecordSetModuleopenai",
-      "subscriptionId": "[parameters('dnsZoneSubscriptionId')]",
-      "resourceGroup": "[parameters('dnsZoneRG')]",
-      "properties": {
-        "expressionEvaluationOptions": {
-          "scope": "inner"
-        },
-        "mode": "Incremental",
-        "parameters": {
-          "dnsZoneName": {
-            "value": "privatelink.vaultcore.azure.net"
-          },
-          "recordSetName": {
-            "value": "[variables('keyVaultName')]"
-          },
-          "ttl": {
-            "value": "[parameters('ttl')]"
-          },
-          "ipAddresses": {
-            "value": [
-              "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Network/privateEndpoints', parameters('azureOpenAIResourceName')), '2020-06-01').networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress]"
-            ]
-          },
-          "location": {
-            "value": "global"
-          }
-        },
-        "template": {
-          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
-          "contentVersion": "1.0.0.0",
-          "metadata": {
-            "_generator": {
-              "name": "bicep",
-              "version": "0.30.3.12046",
-              "templateHash": "12555110477058388663"
-            }
-          },
-          "parameters": {
-            "dnsZoneName": {
-              "type": "string"
-            },
-            "recordSetName": {
-              "type": "string"
-            },
-            "ttl": {
-              "type": "int",
-              "defaultValue": 3600
-            },
-            "ipAddresses": {
-              "type": "array"
-            },
-            "location": {
-              "type": "string"
-            }
-          },
-          "resources": [
-            {
-              "type": "Microsoft.Network/privateDnsZones/A",
-              "apiVersion": "2020-06-01",
-              "name": "[format('{0}/{1}', parameters('dnsZoneName'), parameters('recordSetName'))]",
-              "properties": {
-                "copy": [
-                  {
-                    "name": "aRecords",
-                    "count": "[length(parameters('ipAddresses'))]",
-                    "input": {
-                      "ipv4Address": "[parameters('ipAddresses')[copyIndex('aRecords')]]"
-                    }
-                  }
-                ],
-                "ttl": "[parameters('ttl')]"
-              }
-            }
-          ],
-          "outputs": {
-            "ipAddressesDebug": {
-              "type": "array",
-              "value": "[parameters('ipAddresses')]"
-            },
-            "aRecordsDebug": {
-              "type": "array",
-              "copy": {
-                "count": "[length(parameters('ipAddresses'))]",
-                "input": {
-                  "ipv4Address": "[parameters('ipAddresses')[copyIndex()]]"
-                }
-              }
-            },
-            "recordSetId": {
-              "type": "string",
-              "value": "[resourceId('Microsoft.Network/privateDnsZones/A', parameters('dnsZoneName'), parameters('recordSetName'))]"
-            }
-          }
-        }
-      },
-      "dependsOn": [
         "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
       ]
     },

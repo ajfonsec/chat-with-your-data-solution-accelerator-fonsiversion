@@ -52,17 +52,3 @@ resource pvtEndpointDnsGroup 'Microsoft.Network/privateEndpoints/privateDnsZoneG
 }
 
 
-
-
-// Try to access the existing private endpoint from here 
-
-// resource existingkeyvault 'Microsoft.Network/privateEndpoints@2020-06-01' existing = {
-//   name: privateEndpoint.name
-//   scope: resourceGroup(privateEndpointRG)
-// }
-
-// resource vnetofprtendpint 'Microsoft.Network/networkInterfaces@2020-06-01' existing = {
-//   name: existingkeyvault.properties.networkInterfaces[0].name
-// }
-// output ipaddress string = vnetofprtendpint.properties.ipConfigurations[0].properties.privateIPAddress
-// reference(resourceId('Microsoft.Network/networkInterfaces', parameters('nicName')), '2021-08-01').ipConfigurations[0].properties.privateIPAddress]

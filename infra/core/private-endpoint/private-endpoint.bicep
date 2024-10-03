@@ -60,5 +60,8 @@ resource existingkeyvault 'Microsoft.Network/privateEndpoints@2020-06-01' existi
   scope: resourceGroup(privateEndpointRG)
 }
 
-output ipaddress string = existingkeyvault.properties.networkInterfaces[0].properties.ipConfigurations[0].properties.privateIPAddress
+resource vnetofprtendpint 'Microsoft.Network/networkInterfaces@2020-06-01' existing = {
+  name: existingkeyvault.properties.networkInterfaces[0].name
+}
+output ipaddress string = reference(vnetofprtendpint.id, '2020-06-01').ipConfigurations[0].properties.privateIPAddress
 // reference(resourceId('Microsoft.Network/networkInterfaces', parameters('nicName')), '2021-08-01').ipConfigurations[0].properties.privateIPAddress]

@@ -1,0 +1,27 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+      "dnsZoneResourceGroup": {
+        "value": "Hybrid-AI-Sandbox-RG"
+      },
+      "vnetResourceGroup": {
+        "value": "Hybrid-AI-Sandbox-RG"
+      },
+      "vnetName": {
+        "value": "Hybrid-AI-Sandbox-EastUS2"
+      },
+      "privateEndpointSubsnet": {
+        "value": "subnet-1"
+      },
+      "vnetIntegrationSubnet": {
+        "value": "subnet-2"
+      },
+      "location": {
+        "value": "eastus2"
+      },
+      "environmentName": {
+        "value": "fonsi1"
+      }
+    }
+  }

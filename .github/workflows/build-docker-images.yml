@@ -2,8 +2,6 @@ name: Build Docker Images
 
 on:
   workflow_run:
-    workflows: [Tests]
-    types: [completed]
     branches: [origin/feature/fonsi_privateendpoints_workflows]
   pull_request:
     branches: [origin/feature/fonsi_privateendpoints_workflows]

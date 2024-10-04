@@ -700,7 +700,7 @@ module web_docker './app/web.bicep' = if (hostingModel == 'container') {
     name: '${websiteName}-docker'
     location: location
     tags: union(tags, { 'azd-service-name': 'web-docker' })
-    dockerFullImageName: 'fruoccopublic.azurecr.io/rag-webapp'
+    dockerFullImageName: 'acrenteprisehosting.azurecr.io/rag-webapp'
     appServicePlanId: hostingplan.outputs.name
     vnetIntegrationSubnetId: vnetIntSubsnet.id
     applicationInsightsName: monitoring.outputs.applicationInsightsName
@@ -879,7 +879,7 @@ module adminweb_docker './app/adminweb.bicep' = if (hostingModel == 'container')
     name: '${adminWebsiteName}-docker'
     location: location
     tags: union(tags, { 'azd-service-name': 'adminweb-docker' })
-    dockerFullImageName: 'fruoccopublic.azurecr.io/rag-adminwebapp'
+    dockerFullImageName: 'acrenteprisehosting.azurecr.io/rag-adminwebapp'
     appServicePlanId: hostingplan.outputs.name
     vnetIntegrationSubnetId: vnetIntSubsnet.id
     applicationInsightsName: monitoring.outputs.applicationInsightsName
@@ -1078,7 +1078,7 @@ module function_docker './app/function.bicep' = if (hostingModel == 'container')
     name: '${functionName}-docker'
     location: location
     tags: union(tags, { 'azd-service-name': 'function-docker' })
-    dockerFullImageName: 'fruoccopublic.azurecr.io/rag-backend'
+    dockerFullImageName: 'acrenteprisehosting.azurecr.io/rag-backend'
     appServicePlanId: hostingplan.outputs.name
     vnetIntegrationSubnetId: vnetIntSubsnet.id
     applicationInsightsName: monitoring.outputs.applicationInsightsName

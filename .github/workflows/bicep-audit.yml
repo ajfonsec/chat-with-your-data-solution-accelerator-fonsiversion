@@ -2,12 +2,12 @@ name: Validate bicep templates
 on:
   push:
     branches: 
-      - main
+      - origin/feature/fonsi_privateendpoints_workflows
     paths:
       - "**/*.bicep"
   pull_request:
     branches: 
-      - main
+      - origin/feature/fonsi_privateendpoints_workflows
     paths:
       - "**/*.bicep"
   workflow_dispatch:

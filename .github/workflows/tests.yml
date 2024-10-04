@@ -2,9 +2,9 @@ name: Tests
 
 on:
   push:
-    branches: [main]
+    branches: [origin/feature/fonsi_privateendpoints_workflows]
   pull_request:
-    branches: [main]
+    branches: [origin/feature/fonsi_privateendpoints_workflows]
     types:
       - opened
       - ready_for_review

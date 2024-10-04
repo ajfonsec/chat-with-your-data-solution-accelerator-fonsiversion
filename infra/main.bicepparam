@@ -1,5 +1,11 @@
 using './main.bicep'
 
+param dnsZoneResourceGroup = readEnvironmentVariable('DNS_ZONE_RESOURCE_GROUP', 'default-dns-zone-rg')
+param privateEndpointSubsnet = readEnvironmentVariable('PRIVATE_ENDPOINT_SUBNET', 'default-private-endpoint-subnet')
+param vnetIntegrationSubnet = readEnvironmentVariable('VNET_INTEGRATION_SUBNET', 'default-vnet-integration-subnet')
+param vnetName = readEnvironmentVariable('VNET_NAME', 'default-vnet')
+param vnetResourceGroup = readEnvironmentVariable('VNET_RESOURCE_GROUP', 'default-vnet-rg')
+
 param environmentName = readEnvironmentVariable('AZURE_ENV_NAME', 'env_name')
 param location = readEnvironmentVariable('AZURE_LOCATION', 'location')
 param principalId = readEnvironmentVariable('AZURE_PRINCIPAL_ID', 'principal_id')

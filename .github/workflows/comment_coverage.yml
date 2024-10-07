@@ -2,9 +2,9 @@ name: Comment coverage
 
 on:
   workflow_run:
-  #   workflows: [Tests]
-  #   types:
-  #     - completed
+    workflows: [Tests]
+    types:
+      - completed
 
 permissions:
   pull-requests: write

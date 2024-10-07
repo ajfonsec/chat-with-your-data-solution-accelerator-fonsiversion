@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "4771527399356576981"
+      "templateHash": "16156113230855739836"
     }
   },
   "parameters": {
@@ -3579,7 +3579,7 @@
             "value": "[union(variables('tags'), createObject('azd-service-name', 'web-docker'))]"
           },
           "dockerFullImageName": {
-            "value": "fruoccopublic.azurecr.io/rag-webapp"
+            "value": "acrenterprisehosting.azurecr.io/rag-webapp"
           },
           "appServicePlanId": {
             "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('hostingPlanName')), '2022-09-01').outputs.name.value]"
@@ -5663,7 +5663,7 @@
             "value": "[union(variables('tags'), createObject('azd-service-name', 'adminweb-docker'))]"
           },
           "dockerFullImageName": {
-            "value": "fruoccopublic.azurecr.io/rag-adminwebapp"
+            "value": "acrenterprisehosting.azurecr.io/rag-adminwebapp"
           },
           "appServicePlanId": {
             "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('hostingPlanName')), '2022-09-01').outputs.name.value]"
@@ -9785,7 +9785,7 @@
             "value": "[union(variables('tags'), createObject('azd-service-name', 'function-docker'))]"
           },
           "dockerFullImageName": {
-            "value": "fruoccopublic.azurecr.io/rag-backend"
+            "value": "acrenterprisehosting.azurecr.io/rag-backend"
           },
           "appServicePlanId": {
             "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('hostingPlanName')), '2022-09-01').outputs.name.value]"

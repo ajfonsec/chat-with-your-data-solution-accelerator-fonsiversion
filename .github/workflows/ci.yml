@@ -3,7 +3,7 @@ name: CI
 on:
   push:
     branches:
-      - origin/feature/fonsi_privateendpoints_workflows
+      - main
 
 permissions:
   contents: read

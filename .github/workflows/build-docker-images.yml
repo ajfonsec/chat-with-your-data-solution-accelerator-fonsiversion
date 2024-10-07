@@ -30,7 +30,7 @@ jobs:
             dockerfile: docker/Frontend.Dockerfile
     uses: ./.github/workflows/build-docker.yml
     with:
-      registry: acrenteprisehosting.azurecr.io
+      registry: acrenterprisehosting.westus.data.azurecr.io
       username: acrenteprisehosting
       app_name: ${{ matrix.app_name }}
       dockerfile: ${{ matrix.dockerfile }}

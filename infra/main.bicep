@@ -119,10 +119,10 @@ param azureOpenAIResourceName string = 'openai-${resourceToken}'
 param azureOpenAISkuName string = 'S0'
 
 @description('Azure OpenAI Model Deployment Name')
-param azureOpenAIModel string = 'gpt-35-turbo-16k'
+param azureOpenAIModel string = 'gpt-4o-turbo-16k'
 
 @description('Azure OpenAI Model Name')
-param azureOpenAIModelName string = 'gpt-35-turbo-16k'
+param azureOpenAIModelName string = 'gpt-4o-turbo-16k'
 
 @description('Azure OpenAI Model Version')
 param azureOpenAIModelVersion string = '0613'
@@ -137,10 +137,10 @@ param useAdvancedImageProcessing bool = false
 param advancedImageProcessingMaxImages int = 1
 
 @description('Azure OpenAI Vision Model Deployment Name')
-param azureOpenAIVisionModel string = 'gpt-4'
+param azureOpenAIVisionModel string = 'gpt-4o'
 
 @description('Azure OpenAI Vision Model Name')
-param azureOpenAIVisionModelName string = 'gpt-4'
+param azureOpenAIVisionModelName string = 'gpt-4o'
 
 @description('Azure OpenAI Vision Model Version')
 param azureOpenAIVisionModelVersion string = 'vision-preview'

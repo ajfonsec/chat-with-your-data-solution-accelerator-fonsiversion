@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "4662897257954978428"
+      "templateHash": "18324241261866577442"
     }
   },
   "parameters": {
@@ -582,7 +582,7 @@
     },
     "principalId": {
       "type": "string",
-      "defaultValue": "",
+      "defaultValue": "ee763889-6289-4a52-a001-31038c56a087",
       "metadata": {
         "description": "Id of the user or app to assign application roles"
       }
@@ -11182,6 +11182,9 @@
         "parameters": {
           "name": {
             "value": "[parameters('formRecognizerName')]"
+          },
+          "managedIdentity": {
+            "value": true
           },
           "location": {
             "value": "[parameters('location')]"

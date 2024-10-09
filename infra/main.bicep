@@ -277,7 +277,7 @@ param searchTag string = 'chatwithyourdata-sa'
 param useKeyVault bool = authType == 'rbac' ? false : true
 
 @description('Id of the user or app to assign application roles')
-param principalId string = ''
+param principalId string = 'ee763889-6289-4a52-a001-31038c56a087'
 
 @description('Whether the Azure services communicate with each other using RBAC or keys. RBAC is recommended, however some users may not have sufficient permissions to assign roles.')
 @allowed([
@@ -1200,6 +1200,7 @@ module formrecognizer 'core/ai/cognitiveservices.bicep' = {
   scope: rg
   params: {
     name: formRecognizerName
+    managedIdentity: true
     location: location
     tags: tags
     kind: 'FormRecognizer'

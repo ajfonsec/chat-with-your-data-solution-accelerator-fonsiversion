@@ -6,7 +6,7 @@ param principalId = readEnvironmentVariable('AZURE_PRINCIPAL_ID', 'principal_id'
 
 // Please make sure to set this value to false when using rbac with AZURE_AUTH_TYPE
 param useKeyVault = bool(readEnvironmentVariable('USE_KEY_VAULT', 'true'))
-param authType = readEnvironmentVariable('AZURE_AUTH_TYPE', 'keys')
+param authType = readEnvironmentVariable('AZURE_AUTH_TYPE', 'rbac')
 
 // Deploying using json will set this to "container".
 param hostingModel = readEnvironmentVariable('AZURE_APP_SERVICE_HOSTING_MODEL', 'code')
@@ -78,3 +78,16 @@ param azureAISearchName = searchServiceName == '' ? 'search-${resourceToken}' : 
 param azureSearchIndex = readEnvironmentVariable('AZURE_SEARCH_INDEX', 'index-${resourceToken}')
 param azureOpenAIResourceName = readEnvironmentVariable('AZURE_OPENAI_RESOURCE', 'openai-${resourceToken}')
 param storageAccountName = readEnvironmentVariable('AZURE_BLOB_ACCOUNT_NAME', 'str${resourceToken}')
+
+// Missing parameters
+param costCenter = readEnvironmentVariable('COST_CENTER', 'defaultCostCenter')
+param creationDate = readEnvironmentVariable('CREATION_DATE', '2023-01-01')
+param dnsZoneResourceGroup = readEnvironmentVariable('DNS_ZONE_RESOURCE_GROUP', 'defaultDnsZoneRG')
+param dnsZoneRG = readEnvironmentVariable('DNS_ZONE_RG', 'defaultDnsZoneRG')
+param dnsZoneSubscriptionId = readEnvironmentVariable('DNS_ZONE_SUBSCRIPTION_ID', 'defaultSubscriptionId')
+param expirationDate = readEnvironmentVariable('EXPIRATION_DATE', '2024-01-01')
+param privateEndpointSubsnet = readEnvironmentVariable('PRIVATE_ENDPOINT_SUBNET', 'defaultPrivateEndpointSubnet')
+param requestor = readEnvironmentVariable('REQUESTOR', 'defaultRequestor')
+param vnetIntegrationSubnet = readEnvironmentVariable('VNET_INTEGRATION_SUBNET', 'defaultVnetIntegrationSubnet')
+param vnetName = readEnvironmentVariable('VNET_NAME', 'defaultVnetName')
+param vnetResourceGroup = readEnvironmentVariable('VNET_RESOURCE_GROUP', 'defaultVnetResourceGroup')

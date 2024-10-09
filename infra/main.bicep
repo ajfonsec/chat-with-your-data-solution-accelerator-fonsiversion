@@ -119,10 +119,10 @@ param azureOpenAIResourceName string = 'openai-${resourceToken}'
 param azureOpenAISkuName string = 'S0'
 
 @description('Azure OpenAI Model Deployment Name')
-param azureOpenAIModel string = 'gpt-4o-turbo'
+param azureOpenAIModel string = 'gpt-4o'
 
 @description('Azure OpenAI Model Name')
-param azureOpenAIModelName string = 'gpt-4o-turbo'
+param azureOpenAIModelName string = 'gpt-4o'
 
 @description('Azure OpenAI Model Version')
 param azureOpenAIModelVersion string = '1106-Preview'

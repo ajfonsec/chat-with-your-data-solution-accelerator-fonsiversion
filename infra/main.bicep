@@ -119,13 +119,13 @@ param azureOpenAIResourceName string = 'openai-${resourceToken}'
 param azureOpenAISkuName string = 'S0'
 
 @description('Azure OpenAI Model Deployment Name')
-param azureOpenAIModel string = 'gpt-4o-turbo-16k'
+param azureOpenAIModel string = 'gpt-4o-turbo'
 
 @description('Azure OpenAI Model Name')
-param azureOpenAIModelName string = 'gpt-4o-turbo-16k'
+param azureOpenAIModelName string = 'gpt-4o-turbo'
 
 @description('Azure OpenAI Model Version')
-param azureOpenAIModelVersion string = '0613'
+param azureOpenAIModelVersion string = '1106-Preview'
 
 @description('Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota')
 param azureOpenAIModelCapacity int = 30

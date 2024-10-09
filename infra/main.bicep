@@ -125,7 +125,7 @@ param azureOpenAIModel string = 'gpt-4o'
 param azureOpenAIModelName string = 'gpt-4o'
 
 @description('Azure OpenAI Model Version')
-param azureOpenAIModelVersion string = '1106-Preview'
+param azureOpenAIModelVersion string = '2024-08-06'
 
 @description('Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota')
 param azureOpenAIModelCapacity int = 30

@@ -5,20 +5,20 @@ on:
     workflows: [Tests]
     types: [completed]
     branches: [origin/feature/fonsi_privateendpoints]
-  # push:
-  #     branches: [origin/feature/fonsi_privateendpoints]
-  pull_request:
-    branches: [origin/feature/fonsi_privateendpoints]
-    types:
-    - opened
-    - ready_for_review
-    - reopened
-    - synchronize
+  push:
+      branches: [origin/feature/fonsi_privateendpoints]
+  # pull_request:
+  #   branches: [origin/feature/fonsi_privateendpoints]
+  #   types:
+  #   - opened
+  #   - ready_for_review
+  #   - reopened
+  #   - synchronize
   merge_group:
 
 jobs:
   docker-build:
-    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    # if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     strategy:
       matrix:
         include:

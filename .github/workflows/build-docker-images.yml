@@ -5,6 +5,8 @@ on:
     workflows: [Tests]
     types: [completed]
     branches: [main]
+    push:
+      branches: [origin/feature/fonsi_privateendpoints_workflows]
   pull_request:
     branches: [main]
     types:

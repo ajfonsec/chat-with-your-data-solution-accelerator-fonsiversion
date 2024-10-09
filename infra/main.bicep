@@ -1339,7 +1339,7 @@ module storageRoleUser 'core/security/role.bicep' = if (authType == 'rbac') {
   params: {
     principalId: formrecognizer.outputs.identityPrincipalId
     roleDefinitionId: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
-    principalType: 'User'
+    principalType: 'ServicePrincipal'
   }
 }
 
@@ -1350,7 +1350,7 @@ module openaiRoleUser 'core/security/role.bicep' = if (authType == 'rbac') {
   params: {
     principalId: openai.outputs.identityPrincipalId
     roleDefinitionId: 'a97b65f3-24c7-4388-baec-2e87135dc908'
-    principalType: 'User'
+    principalType: 'ServicePrincipal'
   }
 }
 
@@ -1361,7 +1361,7 @@ module openaiRoleUserContributor 'core/security/role.bicep' = if (authType == 'r
   params: {
     principalId: openai.outputs.identityPrincipalId
     roleDefinitionId: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
-    principalType: 'User'
+    principalType: 'ServicePrincipal'
   }
 }
 
@@ -1372,7 +1372,7 @@ module searchRoleUser 'core/security/role.bicep' = if (authType == 'rbac') {
   params: {
     principalId: search.outputs.identityPrincipalId
     roleDefinitionId: '8ebe5a00-799e-43f5-93ac-243d3dce84a7'
-    principalType: 'User'
+    principalType: 'ServicePrincipal'
   }
 }
 

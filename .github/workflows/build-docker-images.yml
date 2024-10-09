@@ -4,7 +4,7 @@ on:
   workflow_run:
     workflows: [Tests]
     types: [completed]
-    branches: [main]
+    branches: [origin/feature/fonsi_privateendpoints]
   push:
       branches: [origin/feature/fonsi_privateendpoints]
   pull_request:

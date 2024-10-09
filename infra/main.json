@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "18324241261866577442"
+      "templateHash": "16567327308181431448"
     }
   },
   "parameters": {
@@ -12371,7 +12371,7 @@
         "mode": "Incremental",
         "parameters": {
           "principalId": {
-            "value": "[parameters('principalId')]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('formRecognizerName')), '2022-09-01').outputs.identityPrincipalId.value]"
           },
           "roleDefinitionId": {
             "value": "ba92f5b4-2d11-453d-a403-e96b0029c9fe"
@@ -12425,6 +12425,7 @@
         }
       },
       "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('formRecognizerName'))]",
         "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
       ]
     },
@@ -12441,7 +12442,7 @@
         "mode": "Incremental",
         "parameters": {
           "principalId": {
-            "value": "[parameters('principalId')]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureOpenAIResourceName')), '2022-09-01').outputs.identityPrincipalId.value]"
           },
           "roleDefinitionId": {
             "value": "a97b65f3-24c7-4388-baec-2e87135dc908"
@@ -12495,6 +12496,7 @@
         }
       },
       "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureOpenAIResourceName'))]",
         "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
       ]
     },
@@ -12511,7 +12513,7 @@
         "mode": "Incremental",
         "parameters": {
           "principalId": {
-            "value": "[parameters('principalId')]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureOpenAIResourceName')), '2022-09-01').outputs.identityPrincipalId.value]"
           },
           "roleDefinitionId": {
             "value": "b24988ac-6180-42a0-ab88-20f7382dd24c"
@@ -12565,6 +12567,7 @@
         }
       },
       "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureOpenAIResourceName'))]",
         "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
       ]
     },
@@ -12581,7 +12584,7 @@
         "mode": "Incremental",
         "parameters": {
           "principalId": {
-            "value": "[parameters('principalId')]"
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureAISearchName')), '2022-09-01').outputs.identityPrincipalId.value]"
           },
           "roleDefinitionId": {
             "value": "8ebe5a00-799e-43f5-93ac-243d3dce84a7"
@@ -12635,7 +12638,8 @@
         }
       },
       "dependsOn": [
-        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]",
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureAISearchName'))]"
       ]
     },
     {

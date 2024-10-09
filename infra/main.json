@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "8741481265352133356"
+      "templateHash": "220666096198851966"
     }
   },
   "parameters": {
@@ -256,14 +256,14 @@
     },
     "azureOpenAIModel": {
       "type": "string",
-      "defaultValue": "gpt-35-turbo-16k",
+      "defaultValue": "gpt-4o-turbo-16k",
       "metadata": {
         "description": "Azure OpenAI Model Deployment Name"
       }
     },
     "azureOpenAIModelName": {
       "type": "string",
-      "defaultValue": "gpt-35-turbo-16k",
+      "defaultValue": "gpt-4o-turbo-16k",
       "metadata": {
         "description": "Azure OpenAI Model Name"
       }
@@ -298,14 +298,14 @@
     },
     "azureOpenAIVisionModel": {
       "type": "string",
-      "defaultValue": "gpt-4",
+      "defaultValue": "gpt-4o",
       "metadata": {
         "description": "Azure OpenAI Vision Model Deployment Name"
       }
     },
     "azureOpenAIVisionModelName": {
       "type": "string",
-      "defaultValue": "gpt-4",
+      "defaultValue": "gpt-4o",
       "metadata": {
         "description": "Azure OpenAI Vision Model Name"
       }

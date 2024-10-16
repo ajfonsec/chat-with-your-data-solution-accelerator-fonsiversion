@@ -405,7 +405,7 @@ var defaultOpenAiDeployments = [
       version: azureOpenAIModelVersion
     }
     sku: {
-      name: 'Standard'
+      name: 'GlobalStandard'
       capacity: azureOpenAIModelCapacity
     }
   }
@@ -824,7 +824,7 @@ module webPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
     privateDnsZoneName: 'privatelink.azurewebsites.net'
     dnsZoneResourceGroup: dnsZoneResourceGroup
     privatednszoneRG: toLower(dnsZoneRG)
-    privatednszoneSub: dnsZoneSubscriptionId 
+    privatednszoneSub: dnsZoneSubscriptionId
   }
 }
 

@@ -417,7 +417,7 @@ var defaultOpenAiDeployments = [
       version: azureOpenAIEmbeddingModelVersion
     }
     sku: {
-      name: 'GlobalStandard'
+      name: 'Standard'
       capacity: azureOpenAIEmbeddingModelCapacity
     }
   }
@@ -435,7 +435,7 @@ var openAiDeployments = concat(
             version: azureOpenAIVisionModelVersion
           }
           sku: {
-            name: 'GlobalStandard'
+            name: 'Standard'
             capacity: azureOpenAIVisionModelCapacity
           }
         }

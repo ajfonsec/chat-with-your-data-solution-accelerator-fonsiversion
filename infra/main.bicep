@@ -455,6 +455,16 @@ module openai 'core/ai/cognitiveservices.bicep' = {
     }
     managedIdentity: authType == 'rbac'
     deployments: openAiDeployments
+    networkRuleSet: {
+      defaultAction: 'Deny' // Set this according to your requirement
+      ipRules: [] // Add any specific IP rules if needed
+      virtualNetworkRules: [] // Add any VNet rules if needed
+      trustedAzureServices: [
+        {
+          action: 'Allow'
+        }
+      ]
+    }
   }
 }
 
@@ -537,6 +547,18 @@ module blobDataReaderRoleSearch 'core/security/role.bicep' = if (authType == 'rb
   }
 }
 
+
+// Storage Blob Data Contriburor
+module blobDataContributorRoleOpenAI 'core/security/role.bicep' = if (authType == 'rbac') {
+  scope: rg
+  name: 'blob-data-contributor-role-OpenAI'
+  params: {
+    principalId: openai.outputs.identityPrincipalId
+    roleDefinitionId: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
+    principalType: 'ServicePrincipal'
+  }
+}
+
 // Cognitive Services OpenAI User
 module openAiRoleSearchService 'core/security/role.bicep' = if (authType == 'rbac') {
   scope: rg
@@ -611,6 +633,16 @@ module search './core/search/search-services.bicep' = {
       }
     }
     semanticSearch: azureSearchUseSemanticSearch ? 'free' : null
+    networkRuleSet: {
+      defaultAction: 'Deny' // Set this according to your requirement
+      ipRules: [] // Add any specific IP rules if needed
+      virtualNetworkRules: [] // Add any VNet rules if needed
+      trustedAzureServices: [
+        {
+          action: 'Allow'
+        }
+      ]
+    }
   }
 }
 

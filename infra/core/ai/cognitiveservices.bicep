@@ -13,7 +13,10 @@ param publicNetworkAccess string = 'Disabled'
 param sku object = {
   name: 'S0'
 }
-
+param networkRuleSet object = {
+  bypass: 'None'
+  ipRules: []
+}
 param allowedIpRules array = []
 param networkAcls object = empty(allowedIpRules)
  ? {
@@ -33,6 +36,7 @@ resource account 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
     customSubDomainName: customSubDomainName
     publicNetworkAccess: publicNetworkAccess
     networkAcls: networkAcls
+    networkRuleSet: networkRuleSet
   }
   sku: sku
   identity: {

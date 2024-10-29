@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.3.12046",
-      "templateHash": "11156858777473695942"
+      "templateHash": "6882488658442475350"
     }
   },
   "parameters": {
@@ -966,6 +966,18 @@
           },
           "deployments": {
             "value": "[variables('openAiDeployments')]"
+          },
+          "networkRuleSet": {
+            "value": {
+              "defaultAction": "Deny",
+              "ipRules": [],
+              "virtualNetworkRules": [],
+              "trustedAzureServices": [
+                {
+                  "action": "Allow"
+                }
+              ]
+            }
           }
         },
         "template": {
@@ -975,7 +987,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "17695872998601540968"
+              "templateHash": "13291338865107525293"
             },
             "description": "Creates an Azure Cognitive Services instance."
           },
@@ -1024,6 +1036,13 @@
                 "name": "S0"
               }
             },
+            "networkRuleSet": {
+              "type": "object",
+              "defaultValue": {
+                "bypass": "None",
+                "ipRules": []
+              }
+            },
             "allowedIpRules": {
               "type": "array",
               "defaultValue": []
@@ -1044,7 +1063,8 @@
               "properties": {
                 "customSubDomainName": "[parameters('customSubDomainName')]",
                 "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
-                "networkAcls": "[parameters('networkAcls')]"
+                "networkAcls": "[parameters('networkAcls')]",
+                "networkRuleSet": "[parameters('networkRuleSet')]"
               },
               "sku": "[parameters('sku')]",
               "identity": {
@@ -1263,7 +1283,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "17695872998601540968"
+              "templateHash": "13291338865107525293"
             },
             "description": "Creates an Azure Cognitive Services instance."
           },
@@ -1312,6 +1332,13 @@
                 "name": "S0"
               }
             },
+            "networkRuleSet": {
+              "type": "object",
+              "defaultValue": {
+                "bypass": "None",
+                "ipRules": []
+              }
+            },
             "allowedIpRules": {
               "type": "array",
               "defaultValue": []
@@ -1332,7 +1359,8 @@
               "properties": {
                 "customSubDomainName": "[parameters('customSubDomainName')]",
                 "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
-                "networkAcls": "[parameters('networkAcls')]"
+                "networkAcls": "[parameters('networkAcls')]",
+                "networkRuleSet": "[parameters('networkRuleSet')]"
               },
               "sku": "[parameters('sku')]",
               "identity": {
@@ -1604,6 +1632,77 @@
       "condition": "[equals(parameters('authType'), 'rbac')]",
       "type": "Microsoft.Resources/deployments",
       "apiVersion": "2022-09-01",
+      "name": "blob-data-contributor-role-OpenAI",
+      "resourceGroup": "[variables('rgName')]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "principalId": {
+            "value": "[reference(extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureOpenAIResourceName')), '2022-09-01').outputs.identityPrincipalId.value]"
+          },
+          "roleDefinitionId": {
+            "value": "ba92f5b4-2d11-453d-a403-e96b0029c9fe"
+          },
+          "principalType": {
+            "value": "ServicePrincipal"
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "0.30.3.12046",
+              "templateHash": "13207273584888502298"
+            },
+            "description": "Creates a role assignment for a service principal."
+          },
+          "parameters": {
+            "principalId": {
+              "type": "string"
+            },
+            "principalType": {
+              "type": "string",
+              "defaultValue": "ServicePrincipal",
+              "allowedValues": [
+                "Device",
+                "ForeignGroup",
+                "Group",
+                "ServicePrincipal",
+                "User"
+              ]
+            },
+            "roleDefinitionId": {
+              "type": "string"
+            }
+          },
+          "resources": [
+            {
+              "type": "Microsoft.Authorization/roleAssignments",
+              "apiVersion": "2022-04-01",
+              "name": "[guid(subscription().id, resourceGroup().id, parameters('principalId'), parameters('roleDefinitionId'))]",
+              "properties": {
+                "principalId": "[parameters('principalId')]",
+                "principalType": "[parameters('principalType')]",
+                "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', parameters('roleDefinitionId'))]"
+              }
+            }
+          ]
+        }
+      },
+      "dependsOn": [
+        "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, variables('rgName')), 'Microsoft.Resources/deployments', parameters('azureOpenAIResourceName'))]",
+        "[subscriptionResourceId('Microsoft.Resources/resourceGroups', variables('rgName'))]"
+      ]
+    },
+    {
+      "condition": "[equals(parameters('authType'), 'rbac')]",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2022-09-01",
       "name": "openai-role-searchservice",
       "resourceGroup": "[variables('rgName')]",
       "properties": {
@@ -1704,7 +1803,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "17695872998601540968"
+              "templateHash": "13291338865107525293"
             },
             "description": "Creates an Azure Cognitive Services instance."
           },
@@ -1753,6 +1852,13 @@
                 "name": "S0"
               }
             },
+            "networkRuleSet": {
+              "type": "object",
+              "defaultValue": {
+                "bypass": "None",
+                "ipRules": []
+              }
+            },
             "allowedIpRules": {
               "type": "array",
               "defaultValue": []
@@ -1773,7 +1879,8 @@
               "properties": {
                 "customSubDomainName": "[parameters('customSubDomainName')]",
                 "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
-                "networkAcls": "[parameters('networkAcls')]"
+                "networkAcls": "[parameters('networkAcls')]",
+                "networkRuleSet": "[parameters('networkRuleSet')]"
               },
               "sku": "[parameters('sku')]",
               "identity": {
@@ -2206,7 +2313,19 @@
               }
             }
           },
-          "semanticSearch": "[if(parameters('azureSearchUseSemanticSearch'), createObject('value', 'free'), createObject('value', null()))]"
+          "semanticSearch": "[if(parameters('azureSearchUseSemanticSearch'), createObject('value', 'free'), createObject('value', null()))]",
+          "networkRuleSet": {
+            "value": {
+              "defaultAction": "Deny",
+              "ipRules": [],
+              "virtualNetworkRules": [],
+              "trustedAzureServices": [
+                {
+                  "action": "Allow"
+                }
+              ]
+            }
+          }
         },
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
@@ -11203,7 +11322,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "17695872998601540968"
+              "templateHash": "13291338865107525293"
             },
             "description": "Creates an Azure Cognitive Services instance."
           },
@@ -11252,6 +11371,13 @@
                 "name": "S0"
               }
             },
+            "networkRuleSet": {
+              "type": "object",
+              "defaultValue": {
+                "bypass": "None",
+                "ipRules": []
+              }
+            },
             "allowedIpRules": {
               "type": "array",
               "defaultValue": []
@@ -11272,7 +11398,8 @@
               "properties": {
                 "customSubDomainName": "[parameters('customSubDomainName')]",
                 "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
-                "networkAcls": "[parameters('networkAcls')]"
+                "networkAcls": "[parameters('networkAcls')]",
+                "networkRuleSet": "[parameters('networkRuleSet')]"
               },
               "sku": "[parameters('sku')]",
               "identity": {
@@ -11487,7 +11614,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.3.12046",
-              "templateHash": "17695872998601540968"
+              "templateHash": "13291338865107525293"
             },
             "description": "Creates an Azure Cognitive Services instance."
           },
@@ -11536,6 +11663,13 @@
                 "name": "S0"
               }
             },
+            "networkRuleSet": {
+              "type": "object",
+              "defaultValue": {
+                "bypass": "None",
+                "ipRules": []
+              }
+            },
             "allowedIpRules": {
               "type": "array",
               "defaultValue": []
@@ -11556,7 +11690,8 @@
               "properties": {
                 "customSubDomainName": "[parameters('customSubDomainName')]",
                 "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
-                "networkAcls": "[parameters('networkAcls')]"
+                "networkAcls": "[parameters('networkAcls')]",
+                "networkRuleSet": "[parameters('networkRuleSet')]"
               },
               "sku": "[parameters('sku')]",
               "identity": {

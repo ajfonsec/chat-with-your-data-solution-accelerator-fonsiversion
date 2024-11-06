@@ -465,6 +465,11 @@ module openai 'core/ai/cognitiveservices.bicep' = {
         }
       ]
     }
+    networkAcls: {
+      bypass: 'AzureServices'
+      defaultAction: 'Allow'
+      virtualNetworkRules: []
+    }
   }
 }
 

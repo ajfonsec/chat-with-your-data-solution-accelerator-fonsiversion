@@ -643,6 +643,16 @@ module search './core/search/search-services.bicep' = {
       bypass: 'AzureServices' // Allow Azure Services on the trusted services list
       ipRules: [] // Add any specific IP rules if needed
       virtualNetworkRules: [] // Add any VNet rules if needed
+      trustedAzureServices: [
+        {
+          action: 'Allow'
+        }
+      ]
+    }
+    networkAcls: {
+      bypass: 'AzureServices'
+      defaultAction: 'Allow'
+      virtualNetworkRules: []
     }
   }
 }

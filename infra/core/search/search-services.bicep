@@ -1,6 +1,7 @@
 metadata description = 'Creates an Azure AI Search instance.'
 param name string
 param location string = resourceGroup().location
+param networkAcls object = {}
 param tags object = {}
 
 param sku object = {
@@ -54,7 +55,8 @@ resource search 'Microsoft.Search/searchServices@2021-04-01-preview' = {
     publicNetworkAccess: publicNetworkAccess
     replicaCount: replicaCount
     semanticSearch: semanticSearch
-    
+    networkAcls: networkAcls
+
   }
   sku: sku
 }

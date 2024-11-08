@@ -642,8 +642,8 @@ module search './core/search/search-services.bicep' = {
       defaultAction: 'Deny' // Set this according to your requirement
       ipRules: [] // Add any specific IP rules if needed
       virtualNetworkRules: [] // Add any VNet rules if needed
-      bypass: 'AzureServices' // Allow trusted Azure services to bypass the network rule
     }
+    publicNetworkAccess: 'enabled' // Enable public network access for trusted Azure services
   }
 }
 

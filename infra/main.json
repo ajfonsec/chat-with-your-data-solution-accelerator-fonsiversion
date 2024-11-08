@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.23.60470",
-      "templateHash": "6714140304089115935"
+      "templateHash": "13426132704632335772"
     }
   },
   "parameters": {
@@ -2324,9 +2324,7 @@
           "networkRuleSet": {
             "value": {
               "defaultAction": "Deny",
-              "bypass": [
-                "AzureServices"
-              ],
+              "bypass": "AzureServices",
               "ipRules": [],
               "virtualNetworkRules": []
             }

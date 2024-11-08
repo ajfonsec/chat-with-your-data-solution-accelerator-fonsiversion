@@ -55,7 +55,6 @@ resource search 'Microsoft.Search/searchServices@2021-04-01-preview' = {
     publicNetworkAccess: publicNetworkAccess
     replicaCount: replicaCount
     semanticSearch: semanticSearch
-    networkAcls: networkAcls
 
   }
   sku: sku

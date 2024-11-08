@@ -5,7 +5,7 @@
     "_generator": {
       "name": "bicep",
       "version": "0.30.23.60470",
-      "templateHash": "9947482048945111020"
+      "templateHash": "10811915941714534318"
     }
   },
   "parameters": {
@@ -2324,7 +2324,6 @@
           "networkRuleSet": {
             "value": {
               "defaultAction": "Deny",
-              "bypass": "AzureServices",
               "ipRules": [],
               "virtualNetworkRules": [],
               "trustedAzureServices": [
@@ -2332,13 +2331,6 @@
                   "action": "Allow"
                 }
               ]
-            }
-          },
-          "networkAcls": {
-            "value": {
-              "bypass": "AzureServices",
-              "defaultAction": "Allow",
-              "virtualNetworkRules": []
             }
           }
         },
@@ -2349,7 +2341,7 @@
             "_generator": {
               "name": "bicep",
               "version": "0.30.23.60470",
-              "templateHash": "16133098259778194512"
+              "templateHash": "3387267244791499865"
             },
             "description": "Creates an Azure AI Search instance."
           },
@@ -2454,8 +2446,7 @@
                 "partitionCount": "[parameters('partitionCount')]",
                 "publicNetworkAccess": "[parameters('publicNetworkAccess')]",
                 "replicaCount": "[parameters('replicaCount')]",
-                "semanticSearch": "[parameters('semanticSearch')]",
-                "networkAcls": "[parameters('networkAcls')]"
+                "semanticSearch": "[parameters('semanticSearch')]"
               },
               "sku": "[parameters('sku')]"
             }

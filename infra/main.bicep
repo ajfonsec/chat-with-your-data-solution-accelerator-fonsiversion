@@ -640,10 +640,10 @@ module search './core/search/search-services.bicep' = {
     semanticSearch: azureSearchUseSemanticSearch ? 'free' : null
     networkRuleSet: {
       defaultAction: 'Deny' // Set this according to your requirement
+      bypass: ['AzureServices'] // Allow Azure Services on the trusted services list
       ipRules: [] // Add any specific IP rules if needed
       virtualNetworkRules: [] // Add any VNet rules if needed
     }
-    publicNetworkAccess: 'enabled' // Enable public network access for trusted Azure services
   }
 }
 

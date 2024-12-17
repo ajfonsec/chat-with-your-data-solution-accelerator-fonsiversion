@@ -648,11 +648,11 @@ module search './core/search/search-services.bicep' = {
         }
       ]
     }
-    // networkAcls: {
-    //   bypass: 'AzureServices'
-    //   defaultAction: 'Allow'
-    //   virtualNetworkRules: []
-    // }
+    networkAcls: {
+      bypass: 'AzureServices'
+      defaultAction: 'Allow'
+      virtualNetworkRules: []
+    }
   }
 }
 

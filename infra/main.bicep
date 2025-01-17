@@ -364,6 +364,8 @@ module keyvault './core/security/keyvault.bicep' = if (useKeyVault || authType =
   }
 }
 
+//Just a comment
+
 // using the module chat-with-your-data-solution-accelerator/infra/core/private-endpoint/private-endpoint.bicep, add a private link to this key vault
 module keyvaultPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = if (useKeyVault || authType == 'rbac') {
   name: 'keyvault-private-endpoint'

@@ -3,7 +3,7 @@ RUN apt-get update && apt-get install python3-tk tk-dev -y
 COPY pyproject.toml /usr/local/src/myscripts/pyproject.toml
 COPY poetry.lock /usr/local/src/myscripts/poetry.lock
 WORKDIR /usr/local/src/myscripts/
-RUN pip install 23.2.1
+RUN pip install 23.3
 # --upgrade pip
 RUN pip install poetry 
 RUN poetry self update

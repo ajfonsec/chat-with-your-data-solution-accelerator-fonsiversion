@@ -3,10 +3,9 @@ RUN apt-get update && apt-get install python3-tk tk-dev -y
 COPY pyproject.toml /usr/local/src/myscripts/pyproject.toml
 COPY poetry.lock /usr/local/src/myscripts/poetry.lock
 WORKDIR /usr/local/src/myscripts/
-# RUN pip install
-# --upgrade pip
-RUN pip install poetry 
-RUN poetry self update
+RUN pip install --upgrade pip
+RUN pip install poetry==1.8.5 
+#RUN poetry self update
 COPY ./code/backend /usr/local/src/myscripts/admin
 COPY ./code/backend/batch/utilities /usr/local/src/myscripts/utilities
 WORKDIR /usr/local/src/myscripts/admin

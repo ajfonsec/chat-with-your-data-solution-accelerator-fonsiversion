@@ -6,8 +6,8 @@ ENV AzureWebJobsScriptRoot=/home/site/wwwroot \
 
 COPY pyproject.toml /
 COPY poetry.lock /
-RUN pip install --upgrade pip && pip install poetry && poetry export -o requirements.txt 
-# && pip install -r requirements.txt
+RUN pip install --upgrade pip && pip install poetry
+#  && poetry export -o requirements.txt && pip install -r requirements.txt
 
 COPY ./code/backend/batch/utilities /home/site/wwwroot/utilities
 COPY ./code/backend/batch /home/site/wwwroot

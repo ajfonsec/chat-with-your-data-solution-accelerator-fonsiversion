@@ -1084,6 +1084,7 @@ module workbook './app/workbook.bicep' = {
     azureAISearchName: search.outputs.name
     storageAccountName: storage.outputs.name
   }
+  dependsOn:[functionPrivateEndpoint]
 }
 
 module function './app/function.bicep' = if (hostingModel == 'code') {

@@ -673,6 +673,7 @@ module searchPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = 
   }
 }
 
+//
 module hostingplan './core/host/appserviceplan.bicep' = {
   name: hostingPlanName
   scope: rg

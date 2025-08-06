@@ -396,7 +396,7 @@ module keyvaultPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' 
 //     location: 'eastus2'
 //   }
 // }
-
+//
 var defaultOpenAiDeployments = [
   {
     name: azureOpenAIModel

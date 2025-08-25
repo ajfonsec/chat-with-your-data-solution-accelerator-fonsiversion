@@ -37,7 +37,7 @@ jobs:
       app_name: ${{ matrix.app_name }}
       dockerfile: ${{ matrix.dockerfile }}
       # push: ${{ github.event_name == 'Build Docker Images' && github.event.workflow_run.head_branch == 'origin/feature/fonsi_privateendpoints' }}
-      push: ${{ github.ref == 'refs/heads/feature/fonsi_privateendpoints' }}
+      push: true
     secrets: inherit
 
     #github.event_name == 'workflow_run'

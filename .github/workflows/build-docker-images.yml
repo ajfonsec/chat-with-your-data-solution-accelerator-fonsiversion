@@ -16,7 +16,7 @@ on:
   #   - ready_for_review
   #   - reopened
   #   - synchronize
-  merge_group:
+  # merge_group:
 
 jobs:
   docker-build:

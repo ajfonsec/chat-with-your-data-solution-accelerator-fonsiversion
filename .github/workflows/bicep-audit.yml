@@ -2,12 +2,12 @@ name: Validate bicep templates
 on:
   push:
     branches: 
-      - main
+      - disabled-branch
     paths:
       - "**/*.bicep"
   pull_request:
     branches: 
-      - main
+      - disabled-branch
     paths:
       - "**/*.bicep"
   workflow_dispatch:

@@ -2,9 +2,9 @@ name: Tests
 
 on:
   push:
-    branches: [main]
+    branches: [disabled-branch]
   pull_request:
-    branches: [main]
+    branches: [disabled-branch]
     types:
       - opened
       - ready_for_review

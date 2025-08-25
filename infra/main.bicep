@@ -1295,7 +1295,7 @@ module contentSafetyPrivateEndpoint './core/private-endpoint/private-endpoint.bi
     privatednszoneSub: dnsZoneSubscriptionId
   }
 }
-
+//some comment
 module eventgrid 'app/eventgrid.bicep' = {
   name: eventGridSystemTopicName
   scope: rg

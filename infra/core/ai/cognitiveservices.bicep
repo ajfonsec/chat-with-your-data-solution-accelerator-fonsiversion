@@ -9,16 +9,19 @@ param kind string = 'OpenAI'
 param managedIdentity bool = false
 
 @allowed([ 'Enabled', 'Disabled' ])
-param publicNetworkAccess string = 'Enabled'
+param publicNetworkAccess string = 'Disabled'
 param sku object = {
   name: 'S0'
 }
-
+param networkRuleSet object = {
+  bypass: 'None'
+  ipRules: []
+}
 param allowedIpRules array = []
-param networkAcls object = empty(allowedIpRules) 
+param networkAcls object = empty(allowedIpRules)
  ? {
   defaultAction: 'Allow'
-} 
+}
  : {
   ipRules: allowedIpRules
   defaultAction: 'Deny'
@@ -33,6 +36,7 @@ resource account 'Microsoft.CognitiveServices/accounts@2023-05-01' = {
     customSubDomainName: customSubDomainName
     publicNetworkAccess: publicNetworkAccess
     networkAcls: networkAcls
+    networkRuleSet: networkRuleSet
   }
   sku: sku
   identity: {
@@ -49,8 +53,8 @@ for deployment in deployments: {
     model: deployment.model
     raiPolicyName: contains(deployment, 'raiPolicyName') ? deployment.raiPolicyName : null
   }
-  sku: contains(deployment, 'sku') 
-   ? deployment.sku 
+  sku: contains(deployment, 'sku')
+   ? deployment.sku
    : {
     name: 'Standard'
     capacity: 20

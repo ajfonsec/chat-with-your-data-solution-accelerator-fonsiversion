@@ -8,6 +8,7 @@ param applicationInsightsName string = ''
 param appServicePlanId string
 param keyVaultName string = ''
 param managedIdentity bool = !empty(keyVaultName)
+param vnetIntegrationSubnetId string
 
 // Runtime Properties
 @allowed([
@@ -70,6 +71,7 @@ resource appService 'Microsoft.Web/sites@2022-03-01' = {
     }
     clientAffinityEnabled: clientAffinityEnabled
     httpsOnly: true
+    virtualNetworkSubnetId: vnetIntegrationSubnetId
   }
 
   identity: { type: managedIdentity ? 'SystemAssigned' : 'None' }
@@ -137,3 +139,4 @@ resource applicationInsights 'Microsoft.Insights/components@2020-02-02' existing
 output identityPrincipalId string = managedIdentity ? appService.identity.principalId : ''
 output name string = appService.name
 output uri string = 'https://${appService.properties.defaultHostName}'
+output id string = appService.id

@@ -1,22 +1,27 @@
 name: Build Docker Images
 
 on:
-  workflow_run:
-    workflows: [Tests]
-    types: [completed]
-    branches: [main]
-  pull_request:
-    branches: [main]
-    types:
-    - opened
-    - ready_for_review
-    - reopened
-    - synchronize
-  merge_group:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:          # manual trigger from the Actions tab
+  # workflow_run:
+  #   workflows: [Tests]
+  #   types: [completed]
+  #   branches: [origin/feature/fonsi_privateendpoints]
+  # push:
+  #     branches: [origin/feature/fonsi_privateendpoints]
+  # pull_request:
+  #   branches: [origin/feature/fonsi_privateendpoints]
+  #   types:
+  #   - opened
+  #   - ready_for_review
+  #   - reopened
+  #   - synchronize
+  # merge_group:
 
 jobs:
   docker-build:
-    if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
+    # if: ${{ github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success' }}
     strategy:
       matrix:
         include:
@@ -28,9 +33,12 @@ jobs:
             dockerfile: docker/Frontend.Dockerfile
     uses: ./.github/workflows/build-docker.yml
     with:
-      registry: fruoccopublic.azurecr.io
-      username: fruoccopublic
+      registry: acrenterprisehosting.azurecr.io
+      username: acrenteprisehosting
       app_name: ${{ matrix.app_name }}
       dockerfile: ${{ matrix.dockerfile }}
-      push: ${{ github.event_name == 'workflow_run' && github.event.workflow_run.head_branch == 'main' }}
+      # push: ${{ github.event_name == 'Build Docker Images' && github.event.workflow_run.head_branch == 'origin/feature/fonsi_privateendpoints' }}
+      push: true
     secrets: inherit
+
+    #github.event_name == 'workflow_run'

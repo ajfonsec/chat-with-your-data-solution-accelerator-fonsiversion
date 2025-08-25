@@ -4,6 +4,13 @@ targetScope = 'subscription'
 @maxLength(20)
 @description('Name of the the environment which is used to generate a short unique hash used in all resources.')
 param environmentName string
+param costCenter string
+param creationDate string
+param expirationDate string
+param requestor string
+param dnsZoneRG string
+param dnsZoneSubscriptionId string
+param ttl int = 3600
 
 param resourceToken string = toLower(uniqueString(subscription().id, environmentName, location))
 
@@ -112,13 +119,13 @@ param azureOpenAIResourceName string = 'openai-${resourceToken}'
 param azureOpenAISkuName string = 'S0'
 
 @description('Azure OpenAI Model Deployment Name')
-param azureOpenAIModel string = 'gpt-35-turbo-16k'
+param azureOpenAIModel string = 'gpt-4o'
 
 @description('Azure OpenAI Model Name')
-param azureOpenAIModelName string = 'gpt-35-turbo-16k'
+param azureOpenAIModelName string = 'gpt-4o'
 
 @description('Azure OpenAI Model Version')
-param azureOpenAIModelVersion string = '0613'
+param azureOpenAIModelVersion string = '2024-08-06'
 
 @description('Azure OpenAI Model Capacity - See here for more info  https://learn.microsoft.com/en-us/azure/ai-services/openai/how-to/quota')
 param azureOpenAIModelCapacity int = 30
@@ -130,10 +137,10 @@ param useAdvancedImageProcessing bool = false
 param advancedImageProcessingMaxImages int = 1
 
 @description('Azure OpenAI Vision Model Deployment Name')
-param azureOpenAIVisionModel string = 'gpt-4'
+param azureOpenAIVisionModel string = 'gpt-4o'
 
 @description('Azure OpenAI Vision Model Name')
-param azureOpenAIVisionModelName string = 'gpt-4'
+param azureOpenAIVisionModelName string = 'gpt-4o'
 
 @description('Azure OpenAI Vision Model Version')
 param azureOpenAIVisionModelVersion string = 'vision-preview'
@@ -270,14 +277,14 @@ param searchTag string = 'chatwithyourdata-sa'
 param useKeyVault bool = authType == 'rbac' ? false : true
 
 @description('Id of the user or app to assign application roles')
-param principalId string = ''
+param principalId string = 'ee763889-6289-4a52-a001-31038c56a087'
 
 @description('Whether the Azure services communicate with each other using RBAC or keys. RBAC is recommended, however some users may not have sufficient permissions to assign roles.')
 @allowed([
   'rbac'
   'keys'
 ])
-param authType string = 'keys'
+param authType string = 'rbac'
 
 @description('Hosting model for the web apps. Containers are prebuilt and can be deployed faster, but code allows for more customization.')
 @allowed([
@@ -301,11 +308,23 @@ param recognizedLanguages string = 'en-US,fr-FR,de-DE,it-IT'
 @description('Azure Machine Learning Name')
 param azureMachineLearningName string = 'aml-${resourceToken}'
 
+//Networking
+@description('The resource group where the vnet is')
+param vnetResourceGroup string
+@description('The name of the vnt')
+param vnetName string
+@description('The name of the subnet for all PE')
+param privateEndpointSubsnet string
+@description('The name of the subnet for the vnet integration subnet')
+param vnetIntegrationSubnet string
+@description('The resource group where an existing dns zone is')
+param dnsZoneResourceGroup string
+
 var blobContainerName = 'documents'
 var queueName = 'doc-processing'
 var clientKey = '${uniqueString(guid(subscription().id, deployment().name))}${newGuidString}'
 var eventGridSystemTopicName = 'doc-processing'
-var tags = { 'azd-env-name': environmentName }
+var tags = { 'azd-env-name': environmentName, 'cost-center':costCenter, 'creation-date':creationDate, 'expiration-date':expirationDate, 'requestor-name':requestor}
 var rgName = 'rg-${environmentName}'
 var keyVaultName = 'kv-${resourceToken}'
 
@@ -315,6 +334,23 @@ resource rg 'Microsoft.Resources/resourceGroups@2021-04-01' = {
   location: location
   tags: tags
 }
+
+//private link subnet
+resource peSubsnet 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' existing = {
+  scope: resourceGroup(vnetResourceGroup)
+  name: '${vnetName}/${privateEndpointSubsnet}'
+}
+
+//private link subnet
+resource vnetIntSubsnet 'Microsoft.Network/virtualNetworks/subnets@2020-06-01' existing = {
+  scope: resourceGroup(vnetResourceGroup)
+  name: '${vnetName}/${vnetIntegrationSubnet}'
+}
+
+// resource hubprivatednszone 'Microsoft.Network/privateDnsZones@2020-06-01' = {
+//   name: 'privatelink.azurewebsites.net'
+//   scope: resourceGroup(dnsZoneResourceGroup)
+// }
 
 // Store secrets in a keyvault
 module keyvault './core/security/keyvault.bicep' = if (useKeyVault || authType == 'rbac') {
@@ -328,6 +364,39 @@ module keyvault './core/security/keyvault.bicep' = if (useKeyVault || authType =
   }
 }
 
+
+// using the module chat-with-your-data-solution-accelerator/infra/core/private-endpoint/private-endpoint.bicep, add a private link to this key vault
+module keyvaultPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = if (useKeyVault || authType == 'rbac') {
+  name: 'keyvault-private-endpoint'
+  scope: rg
+  params: {
+    location: location
+    name: keyVaultName
+    resourceId: keyvault.outputs.id
+    resourceEndpointType: 'vault'
+    subnetId: peSubsnet.id
+    dnsZoneResourceGroup: dnsZoneResourceGroup
+    privateDnsZoneName: 'privatelink.vaultcore.azure.net'
+    privatednszoneRG: toLower(dnsZoneRG)
+    privatednszoneSub: dnsZoneSubscriptionId
+  }
+}
+
+
+
+// module dnsRecordSetModule './core/private-endpoint/dnsRecordSetModule.bicep' = {
+//   name: 'dnsRecordSetModule'
+//   dependsOn: [keyvaultPrivateEndpoint]
+//   scope: resourceGroup(dnsZoneSubscriptionId, dnsZoneRG)
+//   params: {
+//     dnsZoneName: 'privatelink.vaultcore.azure.net'
+//     recordSetName: keyVaultName
+//     ttl: ttl
+//     ipAddresses: [keyvaultPrivateEndpoint.outputs.ipaddress]
+//     location: 'eastus2'
+//   }
+// }
+//
 var defaultOpenAiDeployments = [
   {
     name: azureOpenAIModel
@@ -337,7 +406,7 @@ var defaultOpenAiDeployments = [
       version: azureOpenAIModelVersion
     }
     sku: {
-      name: 'Standard'
+      name: 'GlobalStandard'
       capacity: azureOpenAIModelCapacity
     }
   }
@@ -387,8 +456,40 @@ module openai 'core/ai/cognitiveservices.bicep' = {
     }
     managedIdentity: authType == 'rbac'
     deployments: openAiDeployments
+    networkRuleSet: {
+      defaultAction: 'Deny' // Set this according to your requirement
+      ipRules: [] // Add any specific IP rules if needed
+      virtualNetworkRules: [] // Add any VNet rules if needed
+      trustedAzureServices: [
+        {
+          action: 'Allow'
+        }
+      ]
+    }
+    networkAcls: {
+      bypass: 'AzureServices'
+      defaultAction: 'Allow'
+      virtualNetworkRules: []
+    }
   }
 }
+
+module openaiPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' =  {
+  name: 'openai-private-endpoint'
+  scope: rg
+  params: {
+    location: location
+    name: azureOpenAIResourceName
+    resourceId: openai.outputs.id
+    resourceEndpointType: 'account'
+    subnetId: peSubsnet.id
+    dnsZoneResourceGroup: dnsZoneResourceGroup
+    privateDnsZoneName: 'privatelink.openai.azure.com'
+    privatednszoneRG: toLower(dnsZoneRG)
+    privatednszoneSub: dnsZoneSubscriptionId
+  }
+}
+
 
 module computerVision 'core/ai/cognitiveservices.bicep' = if (useAdvancedImageProcessing) {
   name: 'computerVision'
@@ -404,6 +505,20 @@ module computerVision 'core/ai/cognitiveservices.bicep' = if (useAdvancedImagePr
   }
 }
 
+// module computerVisionPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = if (useAdvancedImageProcessing) {
+//   name: 'computerVision-private-endpoint'
+//   scope: resourceGroup(vnetResourceGroup)
+//   params: {
+//     location: location
+//     name: computerVisionName
+//     resourceId: computerVision.outputs.id
+//     resourceEndpointType: 'account'
+//     subnetId: peSubsnet.id
+//     dnsZoneResourceGroup: dnsZoneResourceGroup
+//     privateDnsZoneName: 'privatelink.cognitiveservices.azure.com'
+//   }
+// }
+
 // Search Index Data Reader
 module searchIndexRoleOpenai 'core/security/role.bicep' = if (authType == 'rbac') {
   scope: rg
@@ -414,6 +529,7 @@ module searchIndexRoleOpenai 'core/security/role.bicep' = if (authType == 'rbac'
     principalType: 'ServicePrincipal'
   }
 }
+
 
 // Search Service Contributor
 module searchServiceRoleOpenai 'core/security/role.bicep' = if (authType == 'rbac') {
@@ -433,6 +549,18 @@ module blobDataReaderRoleSearch 'core/security/role.bicep' = if (authType == 'rb
   params: {
     principalId: search.outputs.identityPrincipalId
     roleDefinitionId: '2a2b9908-6ea1-4ae2-8e65-a410df84e7d1'
+    principalType: 'ServicePrincipal'
+  }
+}
+
+
+// Storage Blob Data Contriburor
+module blobDataContributorRoleOpenAI 'core/security/role.bicep' = if (authType == 'rbac') {
+  scope: rg
+  name: 'blob-data-contributor-role-OpenAI'
+  params: {
+    principalId: openai.outputs.identityPrincipalId
+    roleDefinitionId: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
     principalType: 'ServicePrincipal'
   }
 }
@@ -458,6 +586,22 @@ module speechService 'core/ai/cognitiveservices.bicep' = {
       name: 'S0'
     }
     kind: 'SpeechServices'
+  }
+}
+
+module speechServicePrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = {
+  name: 'speechService-private-endpoint'
+  scope: rg
+  params: {
+    location: location
+    name: speechServiceName
+    resourceId: speechService.outputs.id
+    resourceEndpointType: 'account'
+    subnetId: peSubsnet.id
+    dnsZoneResourceGroup: dnsZoneResourceGroup
+    privateDnsZoneName: 'privatelink.cognitiveservices.azure.com'
+    privatednszoneRG: toLower(dnsZoneRG)
+    privatednszoneSub: dnsZoneSubscriptionId
   }
 }
 
@@ -495,9 +639,41 @@ module search './core/search/search-services.bicep' = {
       }
     }
     semanticSearch: azureSearchUseSemanticSearch ? 'free' : null
+    networkRuleSet: {
+      defaultAction: 'Deny' // Set this according to your requirement
+      ipRules: [] // Add any specific IP rules if needed
+      virtualNetworkRules: [] // Add any VNet rules if needed
+      trustedAzureServices: [
+        {
+          action: 'Allow'
+        }
+      ]
+    }
+    networkAcls: {
+      bypass: 'AzureServices'
+      defaultAction: 'Allow'
+      virtualNetworkRules: []
+    }
   }
 }
 
+module searchPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = {
+  name: 'searchService-private-endpoint'
+  scope: rg
+  params: {
+    location: location
+    name: azureAISearchName
+    resourceId: search.outputs.id
+    resourceEndpointType: 'searchService'
+    subnetId: peSubsnet.id
+    dnsZoneResourceGroup: dnsZoneResourceGroup
+    privateDnsZoneName: 'privatelink.search.windows.net'
+    privatednszoneRG: toLower(dnsZoneRG)
+    privatednszoneSub: dnsZoneSubscriptionId
+  }
+}
+
+//
 module hostingplan './core/host/appserviceplan.bicep' = {
   name: hostingPlanName
   scope: rg
@@ -523,6 +699,7 @@ module web './app/web.bicep' = if (hostingModel == 'code') {
     runtimeName: 'python'
     runtimeVersion: '3.11'
     appServicePlanId: hostingplan.outputs.name
+    vnetIntegrationSubnetId: vnetIntSubsnet.id
     applicationInsightsName: monitoring.outputs.applicationInsightsName
     healthCheckPath: '/api/health'
     azureOpenAIName: openai.outputs.name
@@ -603,8 +780,9 @@ module web_docker './app/web.bicep' = if (hostingModel == 'container') {
     name: '${websiteName}-docker'
     location: location
     tags: union(tags, { 'azd-service-name': 'web-docker' })
-    dockerFullImageName: 'fruoccopublic.azurecr.io/rag-webapp'
+    dockerFullImageName: 'acrenterprisehosting.azurecr.io/rag-webapp'
     appServicePlanId: hostingplan.outputs.name
+    vnetIntegrationSubnetId: vnetIntSubsnet.id
     applicationInsightsName: monitoring.outputs.applicationInsightsName
     healthCheckPath: '/api/health'
     azureOpenAIName: openai.outputs.name
@@ -678,6 +856,22 @@ module web_docker './app/web.bicep' = if (hostingModel == 'container') {
   }
 }
 
+module webPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
+  name: 'web-private-endpoint'
+  scope: rg
+  params: {
+    name: hostingModel == 'code'? web.outputs.FRONTEND_API_NAME : web_docker.outputs.FRONTEND_API_NAME
+    location: location
+    resourceId: hostingModel == 'code'? web.outputs.FRONTEND_API_ID : web_docker.outputs.FRONTEND_API_ID
+    subnetId: peSubsnet.id
+    resourceEndpointType: 'sites'
+    privateDnsZoneName: 'privatelink.azurewebsites.net'
+    dnsZoneResourceGroup: dnsZoneResourceGroup
+    privatednszoneRG: toLower(dnsZoneRG)
+    privatednszoneSub: dnsZoneSubscriptionId
+  }
+}
+
 module adminweb './app/adminweb.bicep' = if (hostingModel == 'code') {
   name: adminWebsiteName
   scope: rg
@@ -688,6 +882,7 @@ module adminweb './app/adminweb.bicep' = if (hostingModel == 'code') {
     runtimeName: 'python'
     runtimeVersion: '3.11'
     appServicePlanId: hostingplan.outputs.name
+    vnetIntegrationSubnetId: vnetIntSubsnet.id
     applicationInsightsName: monitoring.outputs.applicationInsightsName
     azureOpenAIName: openai.outputs.name
     azureAISearchName: search.outputs.name
@@ -766,8 +961,9 @@ module adminweb_docker './app/adminweb.bicep' = if (hostingModel == 'container')
     name: '${adminWebsiteName}-docker'
     location: location
     tags: union(tags, { 'azd-service-name': 'adminweb-docker' })
-    dockerFullImageName: 'fruoccopublic.azurecr.io/rag-adminwebapp'
+    dockerFullImageName: 'acrenterprisehosting.azurecr.io/rag-adminwebapp'
     appServicePlanId: hostingplan.outputs.name
+    vnetIntegrationSubnetId: vnetIntSubsnet.id
     applicationInsightsName: monitoring.outputs.applicationInsightsName
     azureOpenAIName: openai.outputs.name
     azureAISearchName: search.outputs.name
@@ -839,6 +1035,23 @@ module adminweb_docker './app/adminweb.bicep' = if (hostingModel == 'container')
   }
 }
 
+module webAdminPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
+  name: 'webAdmin-private-endpoint'
+  scope: rg
+  params: {
+    name: hostingModel == 'code'? adminweb.outputs.WEBSITE_ADMIN_NAME : adminweb_docker.outputs.WEBSITE_ADMIN_NAME
+    location: location
+    resourceId: hostingModel == 'code'? adminweb.outputs.WEBSITE_ADMIN_ID : adminweb_docker.outputs.WEBSITE_ADMIN_ID
+    subnetId: peSubsnet.id
+    resourceEndpointType: 'sites'
+    privateDnsZoneName: 'privatelink.azurewebsites.net'
+    dnsZoneResourceGroup: dnsZoneResourceGroup
+    privatednszoneRG: toLower(dnsZoneRG)
+    privatednszoneSub: dnsZoneSubscriptionId
+  }
+}
+
+
 module monitoring './core/monitor/monitoring.bicep' = {
   name: 'monitoring'
   scope: rg
@@ -871,6 +1084,7 @@ module workbook './app/workbook.bicep' = {
     azureAISearchName: search.outputs.name
     storageAccountName: storage.outputs.name
   }
+  dependsOn:[functionPrivateEndpoint]
 }
 
 module function './app/function.bicep' = if (hostingModel == 'code') {
@@ -883,6 +1097,7 @@ module function './app/function.bicep' = if (hostingModel == 'code') {
     runtimeName: 'python'
     runtimeVersion: '3.11'
     appServicePlanId: hostingplan.outputs.name
+    vnetIntegrationSubnetId: vnetIntSubsnet.id
     applicationInsightsName: monitoring.outputs.applicationInsightsName
     azureOpenAIName: openai.outputs.name
     azureAISearchName: search.outputs.name
@@ -948,8 +1163,9 @@ module function_docker './app/function.bicep' = if (hostingModel == 'container')
     name: '${functionName}-docker'
     location: location
     tags: union(tags, { 'azd-service-name': 'function-docker' })
-    dockerFullImageName: 'fruoccopublic.azurecr.io/rag-backend'
+    dockerFullImageName: 'acrenterprisehosting.azurecr.io/rag-backend'
     appServicePlanId: hostingplan.outputs.name
+    vnetIntegrationSubnetId: vnetIntSubsnet.id
     applicationInsightsName: monitoring.outputs.applicationInsightsName
     azureOpenAIName: openai.outputs.name
     azureAISearchName: search.outputs.name
@@ -1008,16 +1224,50 @@ module function_docker './app/function.bicep' = if (hostingModel == 'container')
   }
 }
 
+module functionPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
+  name: 'function-private-endpoint'
+  scope: rg
+  params: {
+    name: hostingModel == 'code'? function.outputs.functionName : function_docker.outputs.functionName
+    location: location
+    resourceId: hostingModel == 'code'? function.outputs.functionId : function_docker.outputs.functionId
+    subnetId: peSubsnet.id
+    resourceEndpointType: 'sites'
+    privateDnsZoneName: 'privatelink.azurewebsites.net'
+    dnsZoneResourceGroup: dnsZoneResourceGroup
+    privatednszoneRG: toLower(dnsZoneRG)
+    privatednszoneSub: dnsZoneSubscriptionId
+  }
+}
+
 module formrecognizer 'core/ai/cognitiveservices.bicep' = {
   name: formRecognizerName
   scope: rg
   params: {
     name: formRecognizerName
+    managedIdentity: true
     location: location
     tags: tags
     kind: 'FormRecognizer'
   }
 }
+
+module formRecognizerPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
+  name: 'formRecognizer-private-endpoint'
+  scope: rg
+  params: {
+    name: formrecognizer.outputs.name
+    location: location
+    resourceId: formrecognizer.outputs.id
+    subnetId: peSubsnet.id
+    resourceEndpointType: 'account'
+    privateDnsZoneName: 'privatelink.cognitiveservices.azure.com'
+    dnsZoneResourceGroup: dnsZoneResourceGroup
+    privatednszoneRG: toLower(dnsZoneRG)
+    privatednszoneSub: dnsZoneSubscriptionId
+  }
+}
+
 
 module contentsafety 'core/ai/cognitiveservices.bicep' = {
   name: contentSafetyName
@@ -1030,6 +1280,22 @@ module contentsafety 'core/ai/cognitiveservices.bicep' = {
   }
 }
 
+module contentSafetyPrivateEndpoint './core/private-endpoint/private-endpoint.bicep' = {
+  name: 'contentSafety-private-endpoint'
+  scope: rg
+  params: {
+    location: location
+    name: contentSafetyName
+    resourceId: contentsafety.outputs.id
+    resourceEndpointType: 'account'
+    subnetId: peSubsnet.id
+    dnsZoneResourceGroup: dnsZoneResourceGroup
+    privateDnsZoneName: 'privatelink.cognitiveservices.azure.com'
+    privatednszoneRG: toLower(dnsZoneRG)
+    privatednszoneSub: dnsZoneSubscriptionId
+  }
+}
+//some comment
 module eventgrid 'app/eventgrid.bicep' = {
   name: eventGridSystemTopicName
   scope: rg
@@ -1078,15 +1344,47 @@ module storage 'core/storage/storage-account.bicep' = {
   }
 }
 
+module storageBlobPrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
+  name: 'storage-blob-private-endpoint'
+  scope: rg
+  params: {
+    name: 'blob-${storage.outputs.name}'
+    location: location
+    resourceId: storage.outputs.id
+    subnetId: peSubsnet.id
+    resourceEndpointType: 'blob'
+    privateDnsZoneName: 'privatelink.blob.core.windows.net'
+    dnsZoneResourceGroup: dnsZoneResourceGroup
+    privatednszoneRG: toLower(dnsZoneRG)
+    privatednszoneSub: dnsZoneSubscriptionId
+  }
+}
+
+module storageQueuePrivateEndpoint 'core/private-endpoint/private-endpoint.bicep' = {
+  name: 'storage-queue-private-endpoint'
+  scope: rg
+  params: {
+    name: 'queue-${storage.outputs.name}'
+    location: location
+    resourceId: storage.outputs.id
+    subnetId: peSubsnet.id
+    resourceEndpointType: 'queue'
+    privateDnsZoneName: 'privatelink.queue.core.windows.net'
+    dnsZoneResourceGroup: dnsZoneResourceGroup
+    privatednszoneRG: toLower(dnsZoneRG)
+    privatednszoneSub: dnsZoneSubscriptionId
+  }
+}
+
 // USER ROLES
 // Storage Blob Data Contributor
 module storageRoleUser 'core/security/role.bicep' = if (authType == 'rbac') {
   scope: rg
   name: 'storage-role-user'
   params: {
-    principalId: principalId
+    principalId: formrecognizer.outputs.identityPrincipalId
     roleDefinitionId: 'ba92f5b4-2d11-453d-a403-e96b0029c9fe'
-    principalType: 'User'
+    principalType: 'ServicePrincipal'
   }
 }
 
@@ -1095,9 +1393,9 @@ module openaiRoleUser 'core/security/role.bicep' = if (authType == 'rbac') {
   scope: rg
   name: 'openai-role-user'
   params: {
-    principalId: principalId
+    principalId: openai.outputs.identityPrincipalId
     roleDefinitionId: 'a97b65f3-24c7-4388-baec-2e87135dc908'
-    principalType: 'User'
+    principalType: 'ServicePrincipal'
   }
 }
 
@@ -1106,9 +1404,9 @@ module openaiRoleUserContributor 'core/security/role.bicep' = if (authType == 'r
   scope: rg
   name: 'openai-role-user-contributor'
   params: {
-    principalId: principalId
+    principalId: openai.outputs.identityPrincipalId
     roleDefinitionId: 'b24988ac-6180-42a0-ab88-20f7382dd24c'
-    principalType: 'User'
+    principalType: 'ServicePrincipal'
   }
 }
 
@@ -1117,9 +1415,9 @@ module searchRoleUser 'core/security/role.bicep' = if (authType == 'rbac') {
   scope: rg
   name: 'search-role-user'
   params: {
-    principalId: principalId
+    principalId: search.outputs.identityPrincipalId
     roleDefinitionId: '8ebe5a00-799e-43f5-93ac-243d3dce84a7'
-    principalType: 'User'
+    principalType: 'ServicePrincipal'
   }
 }
 
@@ -1138,6 +1436,22 @@ module machineLearning 'app/machinelearning.bicep' = if (orchestrationStrategy =
     azureOpenAIEndpoint: openai.outputs.endpoint
   }
 }
+
+
+// module mlPrivateEndpoint 'core/private-endpoint/private-endpoint-ml.bicep' = if (orchestrationStrategy == 'prompt_flow') {
+//   name: 'ml-private-endpoint'
+//   scope: resourceGroup(vnetResourceGroup)
+//   params: {
+//     name: machineLearning.outputs.workspaceName
+//     location: location
+//     resourceId: machineLearning.outputs.workspaceId
+//     subnetId: peSubsnet.id
+//     resourceEndpointType: 'amlworkspace'
+//     privateDnsZoneName: 'privatelink.api.azureml.ms'
+//     nootebookPrivateDnsZoneName: 'privatelink.notebooks.azure.net'
+//     dnsZoneResourceGroup: dnsZoneResourceGroup
+//   }
+// }
 
 output APPLICATIONINSIGHTS_CONNECTION_STRING string = monitoring.outputs.applicationInsightsConnectionString
 output AZURE_APP_SERVICE_HOSTING_MODEL string = hostingModel

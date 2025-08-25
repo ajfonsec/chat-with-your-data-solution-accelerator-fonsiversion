@@ -28,6 +28,7 @@ param speechKeyName string = ''
 param authType string
 param dockerFullImageName string = ''
 param useDocker bool = dockerFullImageName != ''
+param vnetIntegrationSubnetId string
 
 module adminweb '../core/host/appservice.bicep' = {
   name: '${name}-app-module'
@@ -44,6 +45,7 @@ module adminweb '../core/host/appservice.bicep' = {
     scmDoBuildDuringDeployment: useDocker ? false : true
     applicationInsightsName: applicationInsightsName
     appServicePlanId: appServicePlanId
+    vnetIntegrationSubnetId: vnetIntegrationSubnetId
     appSettings: union(appSettings, {
       AZURE_AUTH_TYPE: authType
       USE_KEY_VAULT: useKeyVault ? useKeyVault : ''
@@ -181,3 +183,4 @@ module adminwebaccess '../core/security/keyvault-access.bicep' = if (useKeyVault
 output WEBSITE_ADMIN_IDENTITY_PRINCIPAL_ID string = adminweb.outputs.identityPrincipalId
 output WEBSITE_ADMIN_NAME string = adminweb.outputs.name
 output WEBSITE_ADMIN_URI string = adminweb.outputs.uri
+output WEBSITE_ADMIN_ID string = adminweb.outputs.id

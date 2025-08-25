@@ -27,6 +27,7 @@ param contentSafetyKeyName string = ''
 param speechKeyName string = ''
 param authType string
 param dockerFullImageName string = ''
+param vnetIntegrationSubnetId string
 
 module function '../core/host/functions.bicep' = {
   name: '${name}-app-module'
@@ -35,6 +36,7 @@ module function '../core/host/functions.bicep' = {
     location: location
     tags: tags
     appServicePlanId: appServicePlanId
+    vnetIntegrationSubnetId: vnetIntegrationSubnetId
     applicationInsightsName: applicationInsightsName
     storageAccountName: storageAccountName
     keyVaultName: keyVaultName
@@ -215,3 +217,4 @@ module functionaccess '../core/security/keyvault-access.bicep' = if (useKeyVault
 
 output FUNCTION_IDENTITY_PRINCIPAL_ID string = function.outputs.identityPrincipalId
 output functionName string = function.outputs.name
+output functionId string = function.outputs.id

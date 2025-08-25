@@ -29,6 +29,7 @@ param authType string
 param dockerFullImageName string = ''
 param useDocker bool = dockerFullImageName != ''
 param healthCheckPath string = ''
+param vnetIntegrationSubnetId string
 
 module web '../core/host/appservice.bicep' = {
   name: '${name}-app-module'
@@ -40,6 +41,7 @@ module web '../core/host/appservice.bicep' = {
     appCommandLine: useDocker ? '' : appCommandLine
     applicationInsightsName: applicationInsightsName
     appServicePlanId: appServicePlanId
+    vnetIntegrationSubnetId: vnetIntegrationSubnetId
     appSettings: union(appSettings, {
       AZURE_AUTH_TYPE: authType
       USE_KEY_VAULT: useKeyVault ? useKeyVault : ''
@@ -183,3 +185,4 @@ module webaccess '../core/security/keyvault-access.bicep' = if (useKeyVault) {
 output FRONTEND_API_IDENTITY_PRINCIPAL_ID string = web.outputs.identityPrincipalId
 output FRONTEND_API_NAME string = web.outputs.name
 output FRONTEND_API_URI string = web.outputs.uri
+output FRONTEND_API_ID string = web.outputs.id

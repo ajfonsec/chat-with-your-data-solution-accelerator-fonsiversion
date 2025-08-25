@@ -52,6 +52,7 @@ param healthCheckPath string = ''
 param dockerFullImageName string = ''
 param useDocker bool = dockerFullImageName != ''
 param enableOryxBuild bool = useDocker ? false : contains(kind, 'linux')
+param vnetIntegrationSubnetId string
 
 module functions 'appservice.bicep' = {
   name: '${name}-functions'
@@ -64,6 +65,7 @@ module functions 'appservice.bicep' = {
     appCommandLine: useDocker ? '' : appCommandLine
     applicationInsightsName: applicationInsightsName
     appServicePlanId: appServicePlanId
+    vnetIntegrationSubnetId: vnetIntegrationSubnetId
     appSettings: union(
       appSettings,
       {
@@ -97,3 +99,4 @@ resource storage 'Microsoft.Storage/storageAccounts@2021-09-01' existing = {
 output identityPrincipalId string = managedIdentity ? functions.outputs.identityPrincipalId : ''
 output name string = functions.outputs.name
 output uri string = functions.outputs.uri
+output id string = functions.outputs.id

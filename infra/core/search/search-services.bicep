@@ -1,6 +1,7 @@
 metadata description = 'Creates an Azure AI Search instance.'
 param name string
 param location string = resourceGroup().location
+param networkAcls object = {}
 param tags object = {}
 
 param sku object = {
@@ -27,7 +28,7 @@ param partitionCount int = 1
   'enabled'
   'disabled'
 ])
-param publicNetworkAccess string = 'enabled'
+param publicNetworkAccess string = 'disabled'
 param replicaCount int = 1
 @allowed([
   'disabled'
@@ -54,6 +55,7 @@ resource search 'Microsoft.Search/searchServices@2021-04-01-preview' = {
     publicNetworkAccess: publicNetworkAccess
     replicaCount: replicaCount
     semanticSearch: semanticSearch
+
   }
   sku: sku
 }

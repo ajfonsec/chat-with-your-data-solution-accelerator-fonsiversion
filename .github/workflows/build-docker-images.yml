@@ -3,7 +3,6 @@ name: Build Docker Images
 on:
   schedule:
     - cron: "*/10 * * * *"
-  workflow_dispatch:          # manual trigger from the Actions tab
   # workflow_run:
   #   workflows: [Tests]
   #   types: [completed]
